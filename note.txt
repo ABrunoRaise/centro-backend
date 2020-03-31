@@ -1,0 +1,5 @@
+- no @ResponseBody, c'è già @RestController che lo include
+- rename package "data" in "model"
+- @RequestBody non può essere una mappa o un json object di qualsiasi genere -> deve essere il tuo oggetto model!! ce l'hai già pronto...
+- @PostConstruct spostato sopra, dopo gli @autowired
+- la return SUCCESS deve essere sempre l'ultima riga del metodo
