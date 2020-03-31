@@ -9,7 +9,7 @@ public class UserUtility {
 	public static List<User> setAge(List<User> rawUserList){
 		
 		for(User currentUser : rawUserList) {
-			int ageToSet = DateUtility.calculateDifferenceYear(currentUser.getBirthDay());
+			int ageToSet = DateUtility.calculateDifferenceYear(currentUser.getBirthday());
 			currentUser.setAge(ageToSet);
 		}
 		return rawUserList;
@@ -22,8 +22,8 @@ public class UserUtility {
 				toCheck.getPassword() != null &&
 				toCheck.getMail() != null &&
 				StringUtilities.validateMail(toCheck.getMail()) &&
-				toCheck.getBirthDay() != null &&
-				DateUtility.validateBirthday(toCheck.getBirthDay()) &&
+				toCheck.getBirthday() != null &&
+				DateUtility.validateBirthday(toCheck.getBirthday()) &&
 				toCheck.getIsFemale() != null 
 				);
 	}

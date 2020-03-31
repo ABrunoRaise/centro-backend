@@ -38,7 +38,7 @@ public class UserService {
 		User userFound = userRepository.getUserById(idUser);
 		if (userFound == null)
 			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE);
-		int age = DateUtility.calculateDifferenceYear(userFound.getBirthDay());
+		int age = DateUtility.calculateDifferenceYear(userFound.getBirthday());
 		userFound.setAge(age);
 		return userFound;
 
@@ -48,10 +48,11 @@ public class UserService {
 		
 		log.info("In insert user");
 		userRepository.addUser(userToInsert);
+		
 	}
 
 	public void deleteSurvey(User userToDelete) {
-		log.info("In insert user");
+		log.info("In delete user");
 		userRepository.deleteUserById(userToDelete.getIdUser());
 	}
 
