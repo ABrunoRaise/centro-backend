@@ -22,11 +22,16 @@ public class UserRepository {
 		return userMapper.getUserById(idUser);
 	}
 	
-	public void addUser(User userToInsert) {
-		userMapper.addUser(userToInsert);
+	public Integer addUser(User userToInsert) {
+		return userMapper.addUser(userToInsert);
 	}
 
-	public void deleteUserById(Long idUser) {
-		userMapper.deleteUser(idUser);
+	public Integer deleteUserById(Long idUser) {
+		return userMapper.deleteUser(idUser);
+	}
+
+	public Integer updateUserById(User updatedUser) {
+		return userMapper.updateUser(updatedUser);
+		
 	}
 }

@@ -27,4 +27,8 @@ public class UserUtility {
 				toCheck.getIsFemale() != null 
 				);
 	}
+
+	public static boolean checkUserIDValidity(User toCheck) {
+		return toCheck.getIdUser()!=null;
+	}
 }

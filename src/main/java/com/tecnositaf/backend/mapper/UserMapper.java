@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.mybatis.spring.annotation.MapperScan;
 
 import com.tecnositaf.backend.model.User;
@@ -23,8 +24,12 @@ public interface UserMapper {
 	
 	@Insert("INSERT into utenti (username,password,mail,birthday,is_female)"
 			+ "VALUES(#{username},#{password},#{mail},#{birthday},#{isFemale})")
-	void addUser(User userToInsert);
+	Integer addUser(User userToInsert);
 	
 	@Delete("DELETE from utenti WHERE id_user = #{idUser}")
-	void deleteUser(Long idUser);
+	Integer deleteUser(Long idUser);
+	 
+	@Update("UPDATE utenti SET username = #{username}, password = #{password}, mail = #{mail},"
+			+ "birthday = #{birthday}, is_female = #{isFemale} WHERE id_user = #{idUser} ")
+	Integer updateUser(User updatedUser);
 }

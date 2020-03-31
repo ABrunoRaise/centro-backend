@@ -44,16 +44,25 @@ public class UserService {
 
 	}
 	
-	public void addUser(User userToInsert) {
+	public Integer addUser(User userToInsert) {
 		
 		log.info("In insert user");
-		userRepository.addUser(userToInsert);
+		return userRepository.addUser(userToInsert);
 		
 	}
 
-	public void deleteSurvey(User userToDelete) {
+	public Integer deleteSurvey(User userToDelete) {
 		log.info("In delete user");
-		userRepository.deleteUserById(userToDelete.getIdUser());
+		return userRepository.deleteUserById(userToDelete.getIdUser());
+	}
+
+	public Integer updateUserById(User updatedSurvey) {
+		log.info("In update user");
+		User userFound = userRepository.getUserById(updatedSurvey.getIdUser());
+		if (userFound == null)
+			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE);
+		return userRepository.updateUserById(updatedSurvey);
+		
 	}
 
 }

@@ -20,7 +20,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
 			new Response(
 				-1,
-				ex.toString(),
+				ex.getMessage(),
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString()
 			));
 		
