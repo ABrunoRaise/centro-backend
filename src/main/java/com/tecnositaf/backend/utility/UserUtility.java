@@ -16,6 +16,12 @@ public class UserUtility {
 		
 	}
 
+	//TODO use in UserService
+	public static void setAge(User user){
+		int age = DateUtility.calculateDifferenceYear(user.getBirthday());
+		user.setAge(age);
+	}
+
 	public static boolean checkUserValidity(User toCheck) {
 		return (
 				toCheck.getUsername() != null && 

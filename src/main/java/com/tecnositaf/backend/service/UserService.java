@@ -58,11 +58,12 @@ public class UserService {
 
 	public Integer updateUserById(User updatedSurvey) {
 		log.info("In update user");
-		User userFound = userRepository.getUserById(updatedSurvey.getIdUser());
-		if (userFound == null)
+		int numRowsAffected = userRepository.updateUserById(updatedSurvey);
+		//User userFound = userRepository.getUserById(updatedSurvey.getIdUser());
+		if (numRowsAffected != 1)
 			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE);
-		return userRepository.updateUserById(updatedSurvey);
-		
+		return numRowsAffected;
+		//TODO change also in delete and insert
 	}
 
 }

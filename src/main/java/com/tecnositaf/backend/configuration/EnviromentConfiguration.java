@@ -15,9 +15,8 @@ import org.slf4j.LoggerFactory;
 	@PropertySource("classpath:application.properties"),
 	@PropertySource(value = "classpath:/${env}/database.properties", ignoreResourceNotFound = false)
 })
-
 public class EnviromentConfiguration {
-	
+
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Value("${env}")
@@ -27,9 +26,9 @@ public class EnviromentConfiguration {
 	private String databaseUrl;
 	
 	@PostConstruct
-	void printVariables(){
-		log.info(env);
-		log.info(databaseUrl);
+	void init(){
+		log.info("env => " + env);
+		log.info("databaseUrl => " + databaseUrl);
 	}
 	
 }

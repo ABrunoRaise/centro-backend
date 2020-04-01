@@ -2,10 +2,10 @@ package com.tecnositaf.backend.model;
 
 public class Todo {
 
-	String userId;
-	String id;
+	String userId;//TODO rename idUserFk
+	String id;//TODO rename idTodo
 	String title;
-	Boolean completed;
+	Boolean completed;//TODO isComplete
 	
 	public Todo(String userId, String id, String title, Boolean completed) {
 		this.userId = userId;

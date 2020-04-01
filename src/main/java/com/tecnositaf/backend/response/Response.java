@@ -1,5 +1,7 @@
 package com.tecnositaf.backend.response;
 
+import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
+
 public class Response {
 	
 	int code;
@@ -9,6 +11,11 @@ public class Response {
 	public Response(int code, String message, String path) {
 		this.code = code;
 		this.message = message;
+		this.path = path;
+	}
+	public Response(ResponseErrorEnum erroreEnum, String path) {
+		this.code = erroreEnum.getCode();
+		this.message = erroreEnum.getMessage();
 		this.path = path;
 	}
 

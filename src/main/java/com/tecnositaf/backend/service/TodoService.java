@@ -8,16 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.tecnositaf.backend.model.Todo;
 import com.tecnositaf.backend.repository.TodoRepository;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TodoService {
 
 	@Autowired
 	TodoRepository todoRepository;
+
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	public Todo getTodo(String idTodo) {
+	public Todo getTodoById(String idTodo) {
 		log.info("In get Todo by Id");
 		return todoRepository.getTodo(idTodo);
 	}

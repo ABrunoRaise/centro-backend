@@ -17,12 +17,13 @@ import com.tecnositaf.backend.service.UserService;
 import com.tecnositaf.backend.utility.UserUtility;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
-	@GetMapping(path = "/users")
+	@GetMapping
 	public ResponseEntity<Response> getTable(){
 		
 		List<User> userList = userService.getUserList();
@@ -35,7 +36,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping(path = "users/{idUser}")
+	@GetMapping("/{idUser}")
 	public ResponseEntity<Response> getUserById(@PathVariable Long idUser) {
 		
 		User surveyToReturn = userService.getUserById(idUser);
@@ -48,7 +49,7 @@ public class UserController {
 	}
 	
 	
-	@PostMapping(path = "/users")
+	@PostMapping
 	public ResponseEntity<Response> addUser(@RequestBody User addedUser) {
 		
 		if (!UserUtility.checkUserValidity(addedUser)) 
@@ -63,7 +64,7 @@ public class UserController {
 		
 	}
 	
-	@PutMapping(path = "/users")
+	@PutMapping
 	public ResponseEntity<Response> updateUserById(@RequestBody User updatedSurvey){	
 		
 		if(!UserUtility.checkUserIDValidity(updatedSurvey))  
@@ -79,7 +80,7 @@ public class UserController {
 			));
 		
 	}
-	@DeleteMapping(path = "users/{idUser}")
+	@DeleteMapping("/{idUser}")
 	public ResponseEntity<Response> removeUserById(@PathVariable Long idUser) {
 		
 		User userToDelete = userService.getUserById(idUser);

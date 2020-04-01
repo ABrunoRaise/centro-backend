@@ -22,7 +22,8 @@ public class TodoController {
 	@GetMapping(path = "/todos/{idTodo}")
 	public ResponseEntity<Response> getTable(@PathVariable String idTodo){
 		 	    
-		Todo todoToReturn = todoService.getTodo(idTodo);
+		Todo todoToReturn = todoService.getTodoById(idTodo);
+		//TODO exist check
 	    return ResponseEntity.status(HttpStatus.OK).body(
 	    	new GetTodoByIdResponse(
 	    		ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),

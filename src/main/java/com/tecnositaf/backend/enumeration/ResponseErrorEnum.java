@@ -6,8 +6,10 @@ public enum ResponseErrorEnum {
 	ERR_INVALIDFIELD(2,"Invalid fields entered"),
 	ERR_INVALIDSURVEYFIELD(3,"Survey cannot be null"),
 	ERR_INVALIDPERIOD(4,"Invalid period of time entered"),
-	ERR_INALIDUSERFIELD(5,"User cannot be null");
-	
+	ERR_INALIDUSERFIELD(5,"User cannot be null"),
+
+	ERR_GENERICERROR(-1,"Generic Error");
+
 	private int code;
 	private String message;
 	

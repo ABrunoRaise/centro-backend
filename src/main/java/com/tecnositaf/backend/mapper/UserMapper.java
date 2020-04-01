@@ -11,7 +11,7 @@ import org.mybatis.spring.annotation.MapperScan;
 
 import com.tecnositaf.backend.model.User;
 
-@MapperScan
+//TODO remove @MapperScan
 @Mapper
 public interface UserMapper {
 	
@@ -24,6 +24,7 @@ public interface UserMapper {
 	
 	@Insert("INSERT into utenti (username,password,mail,birthday,is_female)"
 			+ "VALUES(#{username},#{password},#{mail},#{birthday},#{isFemale})")
+	//TODO @Options(useGeneratedKeys = true, keyProperty="user.idUser", keyColumn="id_user")
 	Integer addUser(User userToInsert);
 	
 	@Delete("DELETE from utenti WHERE id_user = #{idUser}")
