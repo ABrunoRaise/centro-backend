@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
@@ -46,7 +47,7 @@ public class SurveyService {
 		
 		log.info("In update survey");
 		Survey surveyToUpdate = surveyRepository.findById(updatedSurvey.getIdSurvey()).orElseThrow(
-									() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE));
+									() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.UNAUTHORIZED));
 		updatedSurvey.setTimestamp(surveyToUpdate.getTimestamp());
 		return surveyRepository.save(updatedSurvey);
 		
@@ -86,7 +87,7 @@ public class SurveyService {
 		
 		log.info("In get survey by id");
 		Survey surveyFound = surveyRepository.findById(idSurvey).orElseThrow(
-								() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE));
+								() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE,HttpStatus.UNAUTHORIZED));
 		int storageYears = DateUtility.calculateDifferenceYear(surveyFound.getTimestamp());
 		surveyFound.setStorageYears(storageYears);
 		return surveyFound;

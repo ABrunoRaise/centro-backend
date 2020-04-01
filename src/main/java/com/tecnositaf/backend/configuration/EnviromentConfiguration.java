@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
 @Configuration
 @PropertySources({
 	@PropertySource("classpath:application.properties"),
-	@PropertySource(value = "classpath:/${env}/database.properties", ignoreResourceNotFound = false)
+	@PropertySource(value = "classpath:/${env}/database.properties", ignoreResourceNotFound = false),
+	@PropertySource(value = "classpath:/${env}/service.properties", ignoreResourceNotFound = false)
 })
 public class EnviromentConfiguration {
 

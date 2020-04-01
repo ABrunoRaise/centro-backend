@@ -20,8 +20,9 @@ public class TodoService {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	public Todo getTodoById(String idTodo) {
-		log.info("In get Todo by Id");
-		return todoRepository.getTodo(idTodo);
+
+		log.info("In get todo by Id");
+		return todoRepository.getTodoById(idTodo);
 	}
 	
 }

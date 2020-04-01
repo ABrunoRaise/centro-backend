@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 
-//TODO remove this @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class CustomException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
-	//TODO private HttpStatus httpStatus;
+	private HttpStatus httpStatus;
 	private ResponseErrorEnum responseError;
 
-	public CustomException(ResponseErrorEnum responseError) {
+	public CustomException(ResponseErrorEnum responseError, HttpStatus httpStatus) {
 		this.responseError = responseError;
+		this.httpStatus = httpStatus;
 	}
 
 	public ResponseErrorEnum getResponseError() {

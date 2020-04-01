@@ -53,7 +53,7 @@ public class UserController {
 	public ResponseEntity<Response> addUser(@RequestBody User addedUser) {
 		
 		if (!UserUtility.checkUserValidity(addedUser)) 
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD);	
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
 		userService.addUser(addedUser); 
 		List<User> updatedUserList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -68,9 +68,9 @@ public class UserController {
 	public ResponseEntity<Response> updateUserById(@RequestBody User updatedSurvey){	
 		
 		if(!UserUtility.checkUserIDValidity(updatedSurvey))  
-			throw new CustomException(ResponseErrorEnum.ERR_INALIDUSERFIELD);
+			throw new CustomException(ResponseErrorEnum.ERR_INALIDUSERFIELD,HttpStatus.UNAUTHORIZED);
 		if (!UserUtility.checkUserValidity(updatedSurvey)) 
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD);		
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
 		userService.updateUserById(updatedSurvey); 
 		List<User> updatedUserList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
