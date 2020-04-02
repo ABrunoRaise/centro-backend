@@ -1,5 +1,7 @@
 package com.tecnositaf.backend.controller;
 
+import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
+import com.tecnositaf.backend.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,9 @@ public class TodoController {
 	@GetMapping(path = "/todos/{idTodo}")
 	public ResponseEntity<Response> getTable(@PathVariable String idTodo){
 		 	    
-		Todo todoToReturn = todoService.getTodo(idTodo);
+		Todo todoToReturn = todoService.getTodoById(idTodo);
+		if (todoToReturn == null)
+			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE,HttpStatus.UNAUTHORIZED);
 	    return ResponseEntity.status(HttpStatus.OK).body(
 	    	new GetTodoByIdResponse(
 	    		ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
