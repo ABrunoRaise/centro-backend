@@ -6,23 +6,22 @@ import com.tecnositaf.backend.model.User;
 
 public class UserUtility {
 
-	public static List<User> setAge(List<User> rawUserList){
+	public static List<User> setAgeOf(List<User> rawUserList){
 		
-		for(User currentUser : rawUserList) {
-			int ageToSet = DateUtility.calculateDifferenceYear(currentUser.getBirthday());
-			currentUser.setAge(ageToSet);
-		}
+		for(User currentUser : rawUserList)
+			UserUtility.setAgeOf(currentUser);
+
 		return rawUserList;
 		
 	}
 	
-	public static User setAge(User user){
+	public static User setAgeOf(User user){
 		int age = DateUtility.calculateDifferenceYear(user.getBirthday());
 		user.setAge(age);
 		return user;
 	}
 
-	public static boolean checkUserValidity(User toCheck) {
+	public static boolean isValidUser(User toCheck) {
 		return (
 				toCheck.getUsername() != null && 
 				toCheck.getPassword() != null &&
@@ -34,7 +33,7 @@ public class UserUtility {
 				);
 	}
 
-	public static boolean checkUserIDValidity(User toCheck) {
+	public static boolean isValidIdUser(User toCheck) {
 		return toCheck.getIdUser()!=null;
 	}
 }

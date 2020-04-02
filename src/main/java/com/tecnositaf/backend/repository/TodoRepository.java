@@ -7,13 +7,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import com.tecnositaf.backend.model.Todo;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Repository
 public class TodoRepository{
 
-	@Value("${todoRestServiceUrl}")
-	String urlTodos;
+	@Value("${service.rest.todo.url}")
+	String SERVICE_REST_TODO_URL;
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -21,7 +20,7 @@ public class TodoRepository{
 	public Todo getTodoById(String idTodo) {
 
 		return restTemplate.exchange(
-				urlTodos + "/" + idTodo,
+				SERVICE_REST_TODO_URL + "/" + idTodo,
 				HttpMethod.GET,
 				null,
 				Todo.class).getBody();

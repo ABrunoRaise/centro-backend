@@ -52,7 +52,7 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<Response> addUser(@RequestBody User addedUser) {
 		
-		if (!UserUtility.checkUserValidity(addedUser)) 
+		if (!UserUtility.isValidUser(addedUser))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
 		userService.addUser(addedUser); 
 		List<User> updatedUserList = userService.getUserList();
@@ -67,9 +67,9 @@ public class UserController {
 	@PutMapping
 	public ResponseEntity<Response> updateUserById(@RequestBody User updatedSurvey){	
 		
-		if(!UserUtility.checkUserIDValidity(updatedSurvey))  
+		if(!UserUtility.isValidIdUser(updatedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INALIDUSERFIELD,HttpStatus.UNAUTHORIZED);
-		if (!UserUtility.checkUserValidity(updatedSurvey)) 
+		if (!UserUtility.isValidUser(updatedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
 		userService.updateUserById(updatedSurvey); 
 		List<User> updatedUserList = userService.getUserList();
