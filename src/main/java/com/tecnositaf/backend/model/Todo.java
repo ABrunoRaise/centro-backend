@@ -1,32 +1,37 @@
 package com.tecnositaf.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Todo {
 
-	String userId;
-	String id;
+	@JsonProperty("userId")
+	String idUserFk;
+	@JsonProperty("id")
+	String idTodo;
 	String title;
-	Boolean completed;
+	@JsonProperty("completed")
+	Boolean isComplete;
 	
-	public Todo(String userId, String id, String title, Boolean completed) {
-		this.userId = userId;
-		this.id = id;
+	public Todo(String idUserFk, String idTodo, String title, Boolean isComplete) {
+		this.idUserFk = idUserFk;
+		this.idTodo = idTodo;
 		this.title = title;
-		this.completed = completed;
+		this.isComplete = isComplete;
 	}
 	
 	public Todo() {}
 	
-	public String getUserId() {
-		return userId;
+	public String getIdUserFk() {
+		return idUserFk;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setIdUserFk(String idUserFk) {
+		this.idUserFk = idUserFk;
 	}
-	public String getId() {
-		return id;
+	public String getIdTodo() {
+		return idTodo;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setIdTodo(String idTodo) {
+		this.idTodo = idTodo;
 	}
 	public String getTitle() {
 		return title;
@@ -34,11 +39,11 @@ public class Todo {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Boolean getCompleted() {
-		return completed;
+	public Boolean getIsComplete() {
+		return isComplete;
 	}
-	public void setCompleted(Boolean completed) {
-		this.completed = completed;
+	public void setIsComplete(Boolean isComplete) {
+		this.isComplete = isComplete;
 	}
 	
 	

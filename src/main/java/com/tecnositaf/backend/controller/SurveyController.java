@@ -27,7 +27,7 @@ import com.tecnositaf.backend.service.SurveyService;
 import com.tecnositaf.backend.utility.SurveyUtility;
 import com.tecnositaf.backend.utility.DateUtility;
 
-
+@RequestMapping("/surveys")
 @RestController
 public class SurveyController {
 	
@@ -36,7 +36,7 @@ public class SurveyController {
 	@Autowired
 	SurveyService surveyService;
 	
-	@GetMapping(path = "/surveys")
+	@GetMapping
 	public ResponseEntity<Response> getTable(){
 		
 		List<Survey> surveyList = surveyService.getSurveyList();
@@ -49,11 +49,11 @@ public class SurveyController {
 		
 	}
 	
-	@PostMapping(path = "/surveys")
+	@PostMapping
 	public ResponseEntity<Response> addSurvey(@RequestBody Survey addedSurvey) {
 		
-		if (!SurveyUtility.checkSurveyValidity(addedSurvey)) 
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD);	
+		if (!SurveyUtility.isValidSurvey(addedSurvey))
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
 		surveyService.addSurvey(addedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -64,13 +64,13 @@ public class SurveyController {
 		
 	}
 	
-	@PutMapping(path = "/surveys")
+	@PutMapping
 	public ResponseEntity<Response> updateSurveyById(@RequestBody Survey updatedSurvey){	
 		
-		if(!SurveyUtility.checkSurveyIDValidity(updatedSurvey))  
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD);
-		if (!SurveyUtility.checkSurveyValidity(updatedSurvey)) 
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD);		
+		if(!SurveyUtility.isValidIdSurvey(updatedSurvey))
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
+		if (!SurveyUtility.isValidSurvey(updatedSurvey))
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
 		surveyService.updateSurveyById(updatedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -81,7 +81,7 @@ public class SurveyController {
 		
 	}
 	
-	@GetMapping(path = "/surveys/devices/{idDevice}")
+	@GetMapping(path = "/devices/{idDevice}")
 	public ResponseEntity<Response> getSurveysByDevice(
 			@PathVariable String idDevice, 
 			@RequestParam(required = false) 
@@ -101,11 +101,11 @@ public class SurveyController {
 		
 	}
 	
-	@GetMapping(path = "surveys/storageYears/{storageYear}")
+	@GetMapping(path = "/storageYears/{storageYear}")
 	public ResponseEntity<Response> getSurveysByStorageYear(@PathVariable int storageYear) {
 		
 		if(!DateUtility.checkYearValidity(storageYear)) 
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDPERIOD);
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDPERIOD,HttpStatus.BAD_REQUEST);
 		List<Survey> surveysByStorageYears = surveyService.getSurveysByStorageYears(storageYear);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			new GetSurveysByStorageYears(
@@ -118,7 +118,7 @@ public class SurveyController {
 	
 	// single Survey functions
 	
-	@GetMapping(path = "surveys/{idSurvey}")
+	@GetMapping(path = "/{idSurvey}")
 	public ResponseEntity<Response> getSurveyById(@PathVariable String idSurvey) {
 		
 		Survey surveyToReturn = surveyService.getSurveyById(idSurvey);
@@ -130,7 +130,7 @@ public class SurveyController {
 
 	}
 	
-	@DeleteMapping(path = "surveys/{idSurvey}")
+	@DeleteMapping(path = "/{idSurvey}")
 	public ResponseEntity<Response> removeSurveyById(@PathVariable String idSurvey) {
 		
 		Survey surveyToDelete = surveyService.getSurveyById(idSurvey);

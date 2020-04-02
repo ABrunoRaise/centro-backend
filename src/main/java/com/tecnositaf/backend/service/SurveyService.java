@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
@@ -28,7 +29,7 @@ public class SurveyService {
 		
 		log.info("In get survey list");
 		List<Survey> rawSurveyList = surveyRepository.findAll();
-		return SurveyUtility.setStorageYear(rawSurveyList);
+		return SurveyUtility.setStorageYearsOf(rawSurveyList);
 		
 	}
 	
@@ -46,7 +47,7 @@ public class SurveyService {
 		
 		log.info("In update survey");
 		Survey surveyToUpdate = surveyRepository.findById(updatedSurvey.getIdSurvey()).orElseThrow(
-									() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE));
+									() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.UNAUTHORIZED));
 		updatedSurvey.setTimestamp(surveyToUpdate.getTimestamp());
 		return surveyRepository.save(updatedSurvey);
 		
@@ -56,7 +57,7 @@ public class SurveyService {
 		
 		log.info("In get surveys from device");
 		List<Survey> rawSurveyList = surveyRepository.getSurveyByIdDevice(idDevice);
-		return SurveyUtility.setStorageYear(rawSurveyList);
+		return SurveyUtility.setStorageYearsOf(rawSurveyList);
 		
 	}
 
@@ -64,7 +65,7 @@ public class SurveyService {
 		
 		log.info("In get surveys from device with timestamp");
 		List<Survey> rawSurveyList = surveyRepository.getSurveyByIdDevice(idDevice, timestamp);
-		return SurveyUtility.setStorageYear(rawSurveyList);
+		return SurveyUtility.setStorageYearsOf(rawSurveyList);
 		
 	}
 
@@ -86,10 +87,8 @@ public class SurveyService {
 		
 		log.info("In get survey by id");
 		Survey surveyFound = surveyRepository.findById(idSurvey).orElseThrow(
-								() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE));
-		int storageYears = DateUtility.calculateDifferenceYear(surveyFound.getTimestamp());
-		surveyFound.setStorageYears(storageYears);
-		return surveyFound;
+								() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE,HttpStatus.UNAUTHORIZED));
+		return SurveyUtility.setStorageYearsOf(surveyFound);
 
 	}
 	

@@ -5,13 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.User;
 import com.tecnositaf.backend.repository.UserRepository;
-import com.tecnositaf.backend.utility.DateUtility;
 import com.tecnositaf.backend.utility.UserUtility;
 
 
@@ -28,7 +28,7 @@ public class UserService {
 		
 		log.info("In get user list");
 		List<User> rawUserList = userRepository.getUserList();
-		return UserUtility.setAge(rawUserList);
+		return UserUtility.setAgeOf(rawUserList);
 	
 	}
 
@@ -37,22 +37,38 @@ public class UserService {
 		log.info("In get user by id");
 		User userFound = userRepository.getUserById(idUser);
 		if (userFound == null)
-			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE);
-		int age = DateUtility.calculateDifferenceYear(userFound.getBirthDay());
-		userFound.setAge(age);
-		return userFound;
+			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.UNAUTHORIZED);
+		return UserUtility.setAgeOf(userFound);
 
 	}
 	
-	public void addUser(User userToInsert) {
+	public Integer addUser(User userToInsert) {
 		
 		log.info("In insert user");
-		userRepository.addUser(userToInsert);
+		int numRowsAffected = userRepository.addUser(userToInsert);
+		if (numRowsAffected != 1)
+			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.BAD_REQUEST);
+		return numRowsAffected;
 	}
 
-	public void deleteSurvey(User userToDelete) {
-		log.info("In insert user");
-		userRepository.deleteUserById(userToDelete.getIdUser());
+	public Integer deleteSurvey(User userToDelete) {
+
+		log.info("In delete user");
+		int numRowsAffected = userRepository.deleteUserById(userToDelete.getIdUser());
+		if (numRowsAffected != 1)
+			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.BAD_REQUEST);
+		return numRowsAffected;
+
+	}
+
+	public Integer updateUserById(User updatedSurvey) {
+
+		log.info("In update user");
+		int numRowsAffected = userRepository.updateUserById(updatedSurvey);
+		if (numRowsAffected != 1)
+			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.BAD_REQUEST);
+		return numRowsAffected;
+
 	}
 
 }

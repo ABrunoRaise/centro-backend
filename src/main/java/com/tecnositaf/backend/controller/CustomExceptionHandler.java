@@ -1,5 +1,6 @@
 package com.tecnositaf.backend.controller;
 
+import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,8 +20,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
 			new Response(
-				-1,
-				ex.toString(),
+				ResponseErrorEnum.ERR_GENERICERROR,
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString()
 			));
 		
@@ -30,8 +30,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	public final ResponseEntity<Response> handleCustomException(CustomException ex, WebRequest request){
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 			new Response(
-				ex.getResponseError().getCode(),
-				ex.getResponseError().getMessage(),
+				ex.getResponseError(),
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString()
 			));
 	}
