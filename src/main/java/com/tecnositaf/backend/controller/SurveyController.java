@@ -27,12 +27,15 @@ import com.tecnositaf.backend.service.SurveyService;
 import com.tecnositaf.backend.utility.SurveyUtility;
 import com.tecnositaf.backend.utility.DateUtility;
 
+import javax.validation.Valid;
+
 @RequestMapping("/surveys")
 @RestController
 public class SurveyController {
 	
 	// private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
+
+	//TODO check error from mongo and mySql
 	@Autowired
 	SurveyService surveyService;
 	
@@ -50,10 +53,10 @@ public class SurveyController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response> addSurvey(@RequestBody Survey addedSurvey) {
+	public ResponseEntity<Response> addSurvey(@Valid @RequestBody Survey addedSurvey) {
 		
-		if (!SurveyUtility.isValidSurvey(addedSurvey))
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
+		/*if (!SurveyUtility.isValidSurvey(addedSurvey))
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);*/
 		surveyService.addSurvey(addedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(

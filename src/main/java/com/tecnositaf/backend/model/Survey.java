@@ -7,20 +7,36 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Document("survey")
 public class Survey {
 
 	@Id
 	private String idSurvey;
-	
+
+	@NotEmpty
 	private String idDeviceFk;
+	@NotNull
+	@NotEmpty
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime timestamp;
 	private Integer storageYears = null;
+	@NotNull
+	@NotEmpty
 	private Double cpu;
+	@NotNull
+	@NotEmpty
 	private Double ram;
+	@NotNull
+	@NotEmpty
 	private Double deviceTemperature;
+	@NotNull
+	@NotEmpty
 	private Double ambientTemperature;
+	@NotNull
+	@NotEmpty
 	private Double ambientPressure;
 	
 	public Survey(String idSurvey, String idDeviceFk, LocalDateTime timestamp, double cpu, double ram, double deviceTemperature,
