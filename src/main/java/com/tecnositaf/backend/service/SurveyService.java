@@ -29,7 +29,7 @@ public class SurveyService {
 		
 		log.info("In get survey list");
 		List<Survey> rawSurveyList = surveyRepository.findAll();
-		return SurveyUtility.setStorageYear(rawSurveyList);
+		return SurveyUtility.setStorageYearsOf(rawSurveyList);
 		
 	}
 	
@@ -57,7 +57,7 @@ public class SurveyService {
 		
 		log.info("In get surveys from device");
 		List<Survey> rawSurveyList = surveyRepository.getSurveyByIdDevice(idDevice);
-		return SurveyUtility.setStorageYear(rawSurveyList);
+		return SurveyUtility.setStorageYearsOf(rawSurveyList);
 		
 	}
 
@@ -65,7 +65,7 @@ public class SurveyService {
 		
 		log.info("In get surveys from device with timestamp");
 		List<Survey> rawSurveyList = surveyRepository.getSurveyByIdDevice(idDevice, timestamp);
-		return SurveyUtility.setStorageYear(rawSurveyList);
+		return SurveyUtility.setStorageYearsOf(rawSurveyList);
 		
 	}
 
@@ -88,9 +88,7 @@ public class SurveyService {
 		log.info("In get survey by id");
 		Survey surveyFound = surveyRepository.findById(idSurvey).orElseThrow(
 								() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE,HttpStatus.UNAUTHORIZED));
-		int storageYears = DateUtility.calculateDifferenceYear(surveyFound.getTimestamp());
-		surveyFound.setStorageYears(storageYears);
-		return surveyFound;
+		return SurveyUtility.setStorageYearsOf(surveyFound);
 
 	}
 	

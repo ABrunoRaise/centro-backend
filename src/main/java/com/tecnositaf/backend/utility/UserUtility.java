@@ -10,7 +10,6 @@ public class UserUtility {
 		
 		for(User currentUser : rawUserList)
 			UserUtility.setAgeOf(currentUser);
-
 		return rawUserList;
 		
 	}

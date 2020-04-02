@@ -52,7 +52,7 @@ public class SurveyController {
 	@PostMapping
 	public ResponseEntity<Response> addSurvey(@RequestBody Survey addedSurvey) {
 		
-		if (!SurveyUtility.checkSurveyValidity(addedSurvey)) 
+		if (!SurveyUtility.isValidSurvey(addedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
 		surveyService.addSurvey(addedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
@@ -67,9 +67,9 @@ public class SurveyController {
 	@PutMapping
 	public ResponseEntity<Response> updateSurveyById(@RequestBody Survey updatedSurvey){	
 		
-		if(!SurveyUtility.checkSurveyIDValidity(updatedSurvey))  
+		if(!SurveyUtility.isValidIdSurvey(updatedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
-		if (!SurveyUtility.checkSurveyValidity(updatedSurvey)) 
+		if (!SurveyUtility.isValidSurvey(updatedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
 		surveyService.updateSurveyById(updatedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
