@@ -5,6 +5,7 @@ import java.util.List;
 
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -36,11 +37,13 @@ public class SurveyController {
 	// private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	//TODO check error from mongo and mySql
+	//TODO make file with strings
+	//TODO hide models swagger
 	@Autowired
 	SurveyService surveyService;
 	
 	@GetMapping
-	public ResponseEntity<Response> getTable(){
+	public ResponseEntity<GetTableResponse> getTable(){
 		
 		List<Survey> surveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -53,10 +56,11 @@ public class SurveyController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response> addSurvey(@Valid @RequestBody Survey addedSurvey) {
-		
-		/*if (!SurveyUtility.isValidSurvey(addedSurvey))
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);*/
+	public ResponseEntity<AddSurveyResponse> addSurvey(
+			@RequestBody
+			@ApiParam(value = "JSON format input, idSurvey and storageYears are not required.") Survey addedSurvey) {
+		if (!SurveyUtility.isValidSurvey(addedSurvey))
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
 		surveyService.addSurvey(addedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -68,8 +72,9 @@ public class SurveyController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Response> updateSurveyById(@RequestBody Survey updatedSurvey){	
-		
+	public ResponseEntity<UpdateSurveyByIdResponse> updateSurveyById(
+			@RequestBody
+			@ApiParam(value = "JSON format input, storageYears is not required.") Survey updatedSurvey){
 		if(!SurveyUtility.isValidIdSurvey(updatedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
 		if (!SurveyUtility.isValidSurvey(updatedSurvey))
@@ -85,7 +90,7 @@ public class SurveyController {
 	}
 	
 	@GetMapping(path = "/devices/{idDevice}")
-	public ResponseEntity<Response> getSurveysByDevice(
+	public ResponseEntity<GetSurveysByDeviceResponse> getSurveysByDevice(
 			@PathVariable String idDevice, 
 			@RequestParam(required = false) 
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timestamp){
@@ -105,7 +110,7 @@ public class SurveyController {
 	}
 	
 	@GetMapping(path = "/storageYears/{storageYear}")
-	public ResponseEntity<Response> getSurveysByStorageYear(@PathVariable int storageYear) {
+	public ResponseEntity<GetSurveysByStorageYears> getSurveysByStorageYear(@PathVariable int storageYear) {
 		
 		if(!DateUtility.checkYearValidity(storageYear)) 
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDPERIOD,HttpStatus.BAD_REQUEST);
@@ -122,7 +127,7 @@ public class SurveyController {
 	// single Survey functions
 	
 	@GetMapping(path = "/{idSurvey}")
-	public ResponseEntity<Response> getSurveyById(@PathVariable String idSurvey) {
+	public ResponseEntity<GetSurveyByIdResponse> getSurveyById(@PathVariable String idSurvey) {
 		
 		Survey surveyToReturn = surveyService.getSurveyById(idSurvey);
 		return  ResponseEntity.status(HttpStatus.OK).body(
@@ -134,7 +139,7 @@ public class SurveyController {
 	}
 	
 	@DeleteMapping(path = "/{idSurvey}")
-	public ResponseEntity<Response> removeSurveyById(@PathVariable String idSurvey) {
+	public ResponseEntity<RemoveSurveyByIdResponse> removeSurveyById(@PathVariable String idSurvey) {
 		
 		Survey surveyToDelete = surveyService.getSurveyById(idSurvey);
 		surveyService.deleteSurvey(surveyToDelete);
