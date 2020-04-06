@@ -5,6 +5,7 @@ import com.tecnositaf.backend.model.Todo;
 import org.springframework.beans.BeanUtils;
 
 public class DTOTodo {
+
     @JsonProperty("userId")
     String idUserFk;
     @JsonProperty("id")

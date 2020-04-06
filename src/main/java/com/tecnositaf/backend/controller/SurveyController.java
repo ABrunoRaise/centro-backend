@@ -56,7 +56,7 @@ public class SurveyController {
 	@PostMapping
 	public ResponseEntity<AddSurveyResponse> addSurvey(
 			@RequestBody
-			@ApiParam(value = "JSON format input, idSurvey and storageYears are not required.") DTOSurvey addedDTOSurvey) {
+			@ApiParam(value = "JSON format input, idSurvey not required.") DTOSurvey addedDTOSurvey) {
 		if (!SurveyUtility.isValidSurvey(addedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
 		Survey toAddInDbSurvey = addedDTOSurvey.toSurvey();
@@ -72,8 +72,7 @@ public class SurveyController {
 	
 	@PutMapping
 	public ResponseEntity<UpdateSurveyByIdResponse> updateSurveyById(
-			@RequestBody
-			@ApiParam(value = "JSON format input, storageYears is not required.") DTOSurvey updatedDTOSurvey){
+			@RequestBody DTOSurvey updatedDTOSurvey){
 		if(!SurveyUtility.isValidIdSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
 		if (!SurveyUtility.isValidSurvey(updatedDTOSurvey))
@@ -110,15 +109,15 @@ public class SurveyController {
 	}
 	
 	@GetMapping(path = "/storageYears/{storageYear}")
-	public ResponseEntity<GetSurveysByStorageYears> getSurveysByStorageYear(@PathVariable int storageYear) {
+	public ResponseEntity<GetSurveysByStorageYears> getSurveysByStorageYear(@PathVariable int storageYears) {
 		
-		if(!DateUtility.checkYearValidity(storageYear)) 
+		if(!DateUtility.checkYearValidity(storageYears))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDPERIOD,HttpStatus.BAD_REQUEST);
-		List<Survey> surveysByStorageYears = surveyService.getSurveysByStorageYears(storageYear);
+		List<Survey> surveysByStorageYears = surveyService.getSurveysByStorageYears(storageYears);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			new GetSurveysByStorageYears(
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
-				storageYear,
+				storageYears,
 				surveysByStorageYears
 			));
 		

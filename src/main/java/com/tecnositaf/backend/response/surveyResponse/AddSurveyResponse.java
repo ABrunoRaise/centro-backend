@@ -1,5 +1,6 @@
 package com.tecnositaf.backend.response.surveyResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tecnositaf.backend.dto.DTOSurvey;
@@ -13,6 +14,7 @@ public class AddSurveyResponse extends Response{
 	
 	public AddSurveyResponse(int code, String message, String path, List<Survey> surveyList) {
 		super(code, message, path);
+		this.surveyList = new ArrayList<>();
 		surveyList.forEach(survey ->
 				this.surveyList.add(survey.toDtoSurvey())
 		);
@@ -21,6 +23,7 @@ public class AddSurveyResponse extends Response{
 	
 	public AddSurveyResponse(String path, List<Survey> surveyList) {
 		super(0,"Success",path);
+		this.surveyList = new ArrayList<>();
 		surveyList.forEach(survey ->
 				this.surveyList.add(survey.toDtoSurvey())
 		);

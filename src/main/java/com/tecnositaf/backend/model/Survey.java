@@ -20,6 +20,7 @@ public class Survey {
 	private String idSurvey;
 
 	private String idDeviceFk;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime timestamp;
 	private Double cpu;
 	private Double ram;
@@ -115,7 +116,8 @@ public class Survey {
 	public DTOSurvey toDtoSurvey(){
 		DTOSurvey output = new DTOSurvey();
 		BeanUtils.copyProperties(this , output);
-		output.setStorageYears(DateUtility.calculateDifferenceYear(output.getTimestamp()));
+		Integer storageYears = DateUtility.calculateDifferenceYear(this.getTimestamp());
+		output.setStorageYears(storageYears);
 		return output;
 	}
 }

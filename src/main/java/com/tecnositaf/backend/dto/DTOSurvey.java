@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import java.time.LocalDateTime;
 
 public class DTOSurvey {
+
     @Id
     private String idSurvey;
 

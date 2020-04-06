@@ -23,6 +23,7 @@ public class GetTableResponse extends Response{
 	
 	public GetTableResponse(String path, List<Survey> surveyList) {
 		super(0,"Success",path);
+		this.surveyList = new ArrayList<>();
 		surveyList.forEach(survey ->
 				this.surveyList.add(survey.toDtoSurvey())
 		);
