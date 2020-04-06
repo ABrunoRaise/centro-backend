@@ -5,6 +5,7 @@ import java.util.List;
 
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
+import com.tecnositaf.backend.dto.DTOSurvey;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -55,10 +56,11 @@ public class SurveyController {
 	@PostMapping
 	public ResponseEntity<AddSurveyResponse> addSurvey(
 			@RequestBody
-			@ApiParam(value = "JSON format input, idSurvey and storageYears are not required.") Survey addedSurvey) {
-		if (!SurveyUtility.isValidSurvey(addedSurvey))
+			@ApiParam(value = "JSON format input, idSurvey and storageYears are not required.") DTOSurvey addedDTOSurvey) {
+		if (!SurveyUtility.isValidSurvey(addedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
-		surveyService.addSurvey(addedSurvey); 
+		Survey toAddInDbSurvey = addedDTOSurvey.toSurvey();
+		surveyService.addSurvey(toAddInDbSurvey);
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
 			new AddSurveyResponse( 
@@ -71,11 +73,12 @@ public class SurveyController {
 	@PutMapping
 	public ResponseEntity<UpdateSurveyByIdResponse> updateSurveyById(
 			@RequestBody
-			@ApiParam(value = "JSON format input, storageYears is not required.") Survey updatedSurvey){
-		if(!SurveyUtility.isValidIdSurvey(updatedSurvey))
+			@ApiParam(value = "JSON format input, storageYears is not required.") DTOSurvey updatedDTOSurvey){
+		if(!SurveyUtility.isValidIdSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
-		if (!SurveyUtility.isValidSurvey(updatedSurvey))
+		if (!SurveyUtility.isValidSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
+		Survey updatedSurvey = updatedDTOSurvey.toSurvey();
 		surveyService.updateSurveyById(updatedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(

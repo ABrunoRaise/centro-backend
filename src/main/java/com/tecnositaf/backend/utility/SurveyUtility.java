@@ -2,13 +2,14 @@ package com.tecnositaf.backend.utility;
 
 import java.util.List;
 
+import com.tecnositaf.backend.dto.DTOSurvey;
 import com.tecnositaf.backend.model.Survey;
 
 public class SurveyUtility {
 	
 	// static Logger log = LoggerFactory.getLogger(Common.class);
 
-	
+	/*
 	public static List<Survey> setStorageYearsOf(List<Survey> rawSurveyList){
 		
 		for(Survey currentSurvey : rawSurveyList) {
@@ -23,9 +24,10 @@ public class SurveyUtility {
 		surveyFound.setStorageYears(storageYearsToSet);
 		return surveyFound;
 	}
+	*/
 
 
-	public static boolean isValidSurvey(Survey toCheck) {
+	public static boolean isValidSurvey(DTOSurvey toCheck) {
 		return (
 				toCheck.getIdDeviceFk() != null &&
 						toCheck.getCpu() != null &&
@@ -36,7 +38,7 @@ public class SurveyUtility {
 		);
 	}
 
-	public static boolean isValidIdSurvey(Survey toCheck) {
+	public static boolean isValidIdSurvey(DTOSurvey toCheck) {
 		return toCheck.getIdSurvey() != null ;
 	}
 }

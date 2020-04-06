@@ -2,6 +2,9 @@ package com.tecnositaf.backend.model;
 
 import java.time.LocalDateTime;
 
+import com.tecnositaf.backend.dto.DTOSurvey;
+import com.tecnositaf.backend.utility.DateUtility;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,9 +20,7 @@ public class Survey {
 	private String idSurvey;
 
 	private String idDeviceFk;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime timestamp;
-	private Integer storageYears = null;
 	private Double cpu;
 	private Double ram;
 	private Double deviceTemperature;
@@ -62,14 +63,6 @@ public class Survey {
 	
 	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
-	}
-	
-	public Integer getStorageYears() {
-		return storageYears;
-	}
-
-	public void setStorageYears(Integer storageYears) {
-		this.storageYears = storageYears;
 	}
 
 	public Double getCpu() {
@@ -115,8 +108,14 @@ public class Survey {
 	@Override
 	public String toString() {
 		return "Survey [idSurvey=" + idSurvey + ", idDeviceFk=" + idDeviceFk + ", timestamp=" + timestamp + 
-				  ", storageYears=" + storageYears +", cpu=" + cpu + ", ram=" + ram + ", deviceTemperature=" + deviceTemperature + ", ambientTemperature="
+				  ",  cpu=" + cpu + ", ram=" + ram + ", deviceTemperature=" + deviceTemperature + ", ambientTemperature="
 				+ ambientTemperature + ", ambientPressure=" + ambientPressure + "]";
 	}
-	
+
+	public DTOSurvey toDtoSurvey(){
+		DTOSurvey output = new DTOSurvey();
+		BeanUtils.copyProperties(this , output);
+		output.setStorageYears(DateUtility.calculateDifferenceYear(output.getTimestamp()));
+		return output;
+	}
 }

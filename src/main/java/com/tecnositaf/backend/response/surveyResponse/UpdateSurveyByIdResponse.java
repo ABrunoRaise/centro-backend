@@ -2,23 +2,28 @@ package com.tecnositaf.backend.response.surveyResponse;
 
 import java.util.List;
 
+import com.tecnositaf.backend.dto.DTOSurvey;
 import com.tecnositaf.backend.model.Survey;
 import com.tecnositaf.backend.response.Response;
 
 public class UpdateSurveyByIdResponse extends Response {
 
 	int numberOfSurveys;
-	List<Survey> surveyList;
+	List<DTOSurvey> surveyList;
 	
 	public UpdateSurveyByIdResponse(int code, String message, String path, List<Survey> surveyList) {
 		super(code, message, path);
-		this.surveyList = surveyList;
+		surveyList.forEach(survey ->
+				this.surveyList.add(survey.toDtoSurvey())
+		);
 		this.numberOfSurveys = surveyList.size();
 	}
 	
 	public UpdateSurveyByIdResponse(String path, List<Survey> surveyList) {
 		super(0,"Success",path);
-		this.surveyList = surveyList;
+		surveyList.forEach(survey ->
+				this.surveyList.add(survey.toDtoSurvey())
+		);
 		this.numberOfSurveys = surveyList.size();
 	}
 
@@ -30,11 +35,11 @@ public class UpdateSurveyByIdResponse extends Response {
 		this.numberOfSurveys = numberOfSurveys;
 	}
 
-	public List<Survey> getSurveyList() {
+	public List<DTOSurvey> getSurveyList() {
 		return surveyList;
 	}
 
-	public void setSurveyList(List<Survey> surveyList) {
+	public void setSurveyList(List<DTOSurvey> surveyList) {
 		this.surveyList = surveyList;
 	}
 	
