@@ -1,15 +1,14 @@
 package com.tecnositaf.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tecnositaf.backend.dto.DTOTodo;
+import org.springframework.beans.BeanUtils;
 
 public class Todo {
 
-	@JsonProperty("userId")
 	String idUserFk;
-	@JsonProperty("id")
 	String idTodo;
 	String title;
-	@JsonProperty("completed")
 	Boolean isComplete;
 	
 	public Todo(String idUserFk, String idTodo, String title, Boolean isComplete) {
@@ -46,5 +45,9 @@ public class Todo {
 		this.isComplete = isComplete;
 	}
 	
-	
+	public DTOTodo toDTOTodo(){
+		DTOTodo output = new DTOTodo();
+		BeanUtils.copyProperties(this, output);
+		return output;
+	}
 }
