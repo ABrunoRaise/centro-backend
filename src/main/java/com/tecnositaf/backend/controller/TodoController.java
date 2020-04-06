@@ -22,7 +22,7 @@ public class TodoController {
 	TodoService todoService;
 	
 	@GetMapping(path = "/todos/{idTodo}")
-	public ResponseEntity<Response> getTable(@PathVariable String idTodo){
+	public ResponseEntity<GetTodoByIdResponse> getTable(@PathVariable String idTodo){
 		 	    
 		Todo todoToReturn = todoService.getTodoById(idTodo);
 		if (todoToReturn == null)
