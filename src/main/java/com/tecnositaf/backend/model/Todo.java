@@ -47,7 +47,29 @@ public class Todo {
 	public void setIsComplete(Boolean isComplete) {
 		this.isComplete = isComplete;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Todo{" +
+				"idUserFk='" + idUserFk + '\'' +
+				", idTodo='" + idTodo + '\'' +
+				", title='" + title + '\'' +
+				", isComplete=" + isComplete +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof Todo))
+			return false;
+		Todo toCheck = (Todo)obj;
+		return (this.idUserFk.equals(toCheck.getIdUserFk()) &&
+				this.idTodo.equals(toCheck.getIdTodo()) &&
+				this.title.equals(toCheck.getTitle()) &&
+				this.isComplete.equals(toCheck.getIsComplete())
+				);
+	}
+
 	public DTOTodo toDTOTodo(){
 		DTOTodo output = new DTOTodo();
 		BeanUtils.copyProperties(this, output);

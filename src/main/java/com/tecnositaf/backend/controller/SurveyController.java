@@ -41,7 +41,7 @@ public class SurveyController {
 	SurveyService surveyService;
 	
 	@GetMapping
-	public ResponseEntity<GetTableResponse> getTable(){
+	public ResponseEntity<GetTableResponse> getSurveys(){
 		
 		List<Survey> surveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
