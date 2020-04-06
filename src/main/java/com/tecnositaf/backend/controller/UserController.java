@@ -2,6 +2,7 @@ package com.tecnositaf.backend.controller;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping
-	public ResponseEntity<Response> getTable(){
+	public ResponseEntity<GetUsersResponse> getTable(){
 		
 		List<User> userList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -37,7 +38,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/{idUser}")
-	public ResponseEntity<Response> getUserById(@PathVariable Long idUser) {
+	public ResponseEntity<GetUserByIdResponse> getUserById(@PathVariable Long idUser) {
 		
 		User surveyToReturn = userService.getUserById(idUser);
 		return  ResponseEntity.status(HttpStatus.OK).body(
@@ -50,7 +51,9 @@ public class UserController {
 	
 	
 	@PostMapping
-	public ResponseEntity<Response> addUser(@RequestBody User addedUser) {
+	public ResponseEntity<AddUserResponse> addUser(
+			@RequestBody
+			@ApiParam(value = "JSON format input, idUser and age are not required.") User addedUser) {
 		
 		if (!UserUtility.isValidUser(addedUser))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
@@ -65,7 +68,9 @@ public class UserController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Response> updateUserById(@RequestBody User updatedSurvey){	
+	public ResponseEntity<UpdateUserByIdResponse> updateUserById(
+			@RequestBody
+			@ApiParam(value = "JSON format input, age is not required.") User updatedSurvey){
 		
 		if(!UserUtility.isValidIdUser(updatedSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INALIDUSERFIELD,HttpStatus.UNAUTHORIZED);
@@ -81,7 +86,7 @@ public class UserController {
 		
 	}
 	@DeleteMapping("/{idUser}")
-	public ResponseEntity<Response> removeUserById(@PathVariable Long idUser) {
+	public ResponseEntity<RemoveUserByIdResponse> removeUserById(@PathVariable Long idUser) {
 		
 		User userToDelete = userService.getUserById(idUser);
 		userService.deleteSurvey(userToDelete);
