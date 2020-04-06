@@ -17,7 +17,7 @@ public class GetTodoByIdResponse extends Response{
 		super(0, "Success", path);
 		this.todo = todo;
 	}
-	
+
 	public Todo getTodo() {
 		return todo;
 	}

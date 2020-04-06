@@ -25,10 +25,10 @@ public class SpringFoxConfiguration {
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo());
+                .apiInfo(makeApiInfo());
     }
 
-    private ApiInfo apiInfo() {
+    private ApiInfo makeApiInfo() {
         return new ApiInfoBuilder()
                 .title("API centro backend ")
                 .version("1.0.0")

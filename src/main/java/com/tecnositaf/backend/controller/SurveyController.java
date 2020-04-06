@@ -36,9 +36,6 @@ public class SurveyController {
 	
 	// private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	//TODO check error from mongo and mySql
-	//TODO make file with strings
-	//TODO hide models swagger
 	@Autowired
 	SurveyService surveyService;
 	
