@@ -56,8 +56,8 @@ public class SurveyController {
 	@PostMapping
 	public ResponseEntity<AddSurveyResponse> addSurvey(
 			@RequestBody
-			@ApiParam(value = "JSON format input, idSurvey not required.") DTOSurvey addedDTOSurvey) {
-		if (!SurveyUtility.isValidSurvey(addedDTOSurvey))
+			@ApiParam(value = "IdSurvey not required") DTOSurvey addedDTOSurvey) {
+		if (!SurveyUtility.isValidSurveyForInsert(addedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
 		Survey toAddInDbSurvey = addedDTOSurvey.toSurvey();
 		surveyService.addSurvey(toAddInDbSurvey);

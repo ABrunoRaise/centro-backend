@@ -41,4 +41,8 @@ public class SurveyUtility {
 	public static boolean isValidIdSurvey(DTOSurvey toCheck) {
 		return toCheck.getIdSurvey() != null ;
 	}
+
+    public static boolean isValidSurveyForInsert(DTOSurvey addedDTOSurvey) {
+		return isValidSurvey(addedDTOSurvey) && !isValidIdSurvey(addedDTOSurvey);
+    }
 }

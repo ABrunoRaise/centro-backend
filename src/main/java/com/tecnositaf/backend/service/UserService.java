@@ -27,8 +27,7 @@ public class UserService {
 	public List<User> getUserList() {
 		
 		log.info("In get user list");
-		List<User> rawUserList = userRepository.getUserList();
-		return UserUtility.setAgeOf(rawUserList);
+		return userRepository.getUserList();
 	
 	}
 
@@ -38,7 +37,7 @@ public class UserService {
 		User userFound = userRepository.getUserById(idUser);
 		if (userFound == null)
 			throw new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE, HttpStatus.UNAUTHORIZED);
-		return UserUtility.setAgeOf(userFound);
+		return userFound;
 
 	}
 	
@@ -51,7 +50,7 @@ public class UserService {
 		return numRowsAffected;
 	}
 
-	public Integer deleteSurvey(User userToDelete) {
+	public Integer deleteUser(User userToDelete) {
 
 		log.info("In delete user");
 		int numRowsAffected = userRepository.deleteUserById(userToDelete.getIdUser());

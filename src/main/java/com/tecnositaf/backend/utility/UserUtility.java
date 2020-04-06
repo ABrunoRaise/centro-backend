@@ -2,10 +2,12 @@ package com.tecnositaf.backend.utility;
 
 import java.util.List;
 
+import com.tecnositaf.backend.dto.DTOUser;
 import com.tecnositaf.backend.model.User;
 
 public class UserUtility {
 
+	/*
 	public static List<User> setAgeOf(List<User> rawUserList){
 		
 		for(User currentUser : rawUserList)
@@ -19,11 +21,11 @@ public class UserUtility {
 		user.setAge(age);
 		return user;
 	}
+	*/
 
-	public static boolean isValidUser(User toCheck) {
+	public static boolean isValidUser(DTOUser toCheck) {
 		return (
-				toCheck.getUsername() != null && 
-				toCheck.getPassword() != null &&
+				toCheck.getUsername() != null &&
 				toCheck.getMail() != null &&
 				StringUtilities.validateMail(toCheck.getMail()) &&
 				toCheck.getBirthday() != null &&
@@ -32,7 +34,11 @@ public class UserUtility {
 				);
 	}
 
-	public static boolean isValidIdUser(User toCheck) {
+	public static boolean isValidIdUser(DTOUser toCheck) {
 		return toCheck.getIdUser()!=null;
+	}
+
+	public static boolean isValidUserInsert(DTOUser addedDTOUser) {
+		return isValidUser(addedDTOUser) && !isValidIdUser(addedDTOUser);
 	}
 }
