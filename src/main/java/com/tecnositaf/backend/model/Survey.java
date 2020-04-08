@@ -2,13 +2,13 @@ package com.tecnositaf.backend.model;
 
 import java.time.LocalDateTime;
 
+import com.tecnositaf.backend.dto.DTOSurvey;
+import com.tecnositaf.backend.utilities.DateUtility;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Document("survey")
 public class Survey {
@@ -19,7 +19,6 @@ public class Survey {
 	private String idDeviceFk;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime timestamp;
-	private Integer storageYears = null;
 	private Double cpu;
 	private Double ram;
 	private Double deviceTemperature;
@@ -62,14 +61,6 @@ public class Survey {
 	
 	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
-	}
-	
-	public Integer getStorageYears() {
-		return storageYears;
-	}
-
-	public void setStorageYears(Integer storageYears) {
-		this.storageYears = storageYears;
 	}
 
 	public Double getCpu() {
@@ -115,8 +106,30 @@ public class Survey {
 	@Override
 	public String toString() {
 		return "Survey [idSurvey=" + idSurvey + ", idDeviceFk=" + idDeviceFk + ", timestamp=" + timestamp + 
-				  ", storageYears=" + storageYears +", cpu=" + cpu + ", ram=" + ram + ", deviceTemperature=" + deviceTemperature + ", ambientTemperature="
+				  ",  cpu=" + cpu + ", ram=" + ram + ", deviceTemperature=" + deviceTemperature + ", ambientTemperature="
 				+ ambientTemperature + ", ambientPressure=" + ambientPressure + "]";
 	}
-	
+
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof Survey))
+			return false;
+		Survey toCheck = (Survey) obj;
+		return (this.idSurvey.equals(toCheck.getIdSurvey()) &&
+				this.idDeviceFk.equals(toCheck.getIdDeviceFk()) &&
+				this.timestamp.equals(toCheck.getTimestamp()) &&
+				this.cpu.equals(toCheck.getCpu()) &&
+				this.ram.equals(toCheck.getRam()) &&
+				this.deviceTemperature.equals(toCheck.getDeviceTemperature()) &&
+				this.ambientTemperature.equals(toCheck.getAmbientTemperature()) &&
+				this.ambientPressure.equals(toCheck.getAmbientPressure()));
+	}
+
+	public DTOSurvey toDtoSurvey(){
+		DTOSurvey output = new DTOSurvey();
+		BeanUtils.copyProperties(this , output);
+		Integer storageYears = DateUtility.calculateDifferenceYear(this.getTimestamp());
+		output.setStorageYears(storageYears);
+		return output;
+	}
 }

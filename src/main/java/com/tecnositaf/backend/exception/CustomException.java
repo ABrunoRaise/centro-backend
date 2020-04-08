@@ -1,7 +1,6 @@
 package com.tecnositaf.backend.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 
@@ -23,5 +22,12 @@ public class CustomException extends RuntimeException{
 	public void setResponseError(ResponseErrorEnum responseError) {
 		this.responseError = responseError;
 	}
-	
+
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
+
+	public void setHttpStatus(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
+	}
 }

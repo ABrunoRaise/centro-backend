@@ -1,15 +1,17 @@
 package com.tecnositaf.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.tecnositaf.backend.dto.DTOTodo;
+import org.springframework.beans.BeanUtils;
 
 public class Todo {
 
-	@JsonProperty("userId")
+	@JsonAlias("userId")
 	String idUserFk;
-	@JsonProperty("id")
+	@JsonAlias("id")
 	String idTodo;
 	String title;
-	@JsonProperty("completed")
+	@JsonAlias("completed")
 	Boolean isComplete;
 	
 	public Todo(String idUserFk, String idTodo, String title, Boolean isComplete) {
@@ -45,6 +47,32 @@ public class Todo {
 	public void setIsComplete(Boolean isComplete) {
 		this.isComplete = isComplete;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Todo{" +
+				"idUserFk='" + idUserFk + '\'' +
+				", idTodo='" + idTodo + '\'' +
+				", title='" + title + '\'' +
+				", isComplete=" + isComplete +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof Todo))
+			return false;
+		Todo toCheck = (Todo)obj;
+		return (this.idUserFk.equals(toCheck.getIdUserFk()) &&
+				this.idTodo.equals(toCheck.getIdTodo()) &&
+				this.title.equals(toCheck.getTitle()) &&
+				this.isComplete.equals(toCheck.getIsComplete())
+				);
+	}
+
+	public DTOTodo toDTOTodo(){
+		DTOTodo output = new DTOTodo();
+		BeanUtils.copyProperties(this, output);
+		return output;
+	}
 }

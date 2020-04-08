@@ -2,6 +2,7 @@ package com.tecnositaf.backend.controller;
 
 import java.util.List;
 
+import com.tecnositaf.backend.dto.DTOUser;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.User;
-import com.tecnositaf.backend.response.Response;
 import com.tecnositaf.backend.response.userResponse.*;
 import com.tecnositaf.backend.service.UserService;
-import com.tecnositaf.backend.utility.UserUtility;
+import com.tecnositaf.backend.utilities.UserUtility;
 
 @RestController
 @RequestMapping("/users")
@@ -25,7 +25,7 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping
-	public ResponseEntity<GetUsersResponse> getTable(){
+	public ResponseEntity<GetUsersResponse> getUsers(){
 		
 		List<User> userList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -53,10 +53,10 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<AddUserResponse> addUser(
 			@RequestBody
-			@ApiParam(value = "JSON format input, idUser and age are not required.") User addedUser) {
-		
-		if (!UserUtility.isValidUser(addedUser))
+			@ApiParam(value = "IdUser not required") DTOUser addedDTOUser) {
+		if (!UserUtility.isValidUserInsert(addedDTOUser))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
+		User addedUser = addedDTOUser.toUser();
 		userService.addUser(addedUser); 
 		List<User> updatedUserList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -69,14 +69,14 @@ public class UserController {
 	
 	@PutMapping
 	public ResponseEntity<UpdateUserByIdResponse> updateUserById(
-			@RequestBody
-			@ApiParam(value = "JSON format input, age is not required.") User updatedSurvey){
+			@RequestBody DTOUser updatedDTOUser){
 		
-		if(!UserUtility.isValidIdUser(updatedSurvey))
+		if(!UserUtility.isValidIdUser(updatedDTOUser))
 			throw new CustomException(ResponseErrorEnum.ERR_INALIDUSERFIELD,HttpStatus.UNAUTHORIZED);
-		if (!UserUtility.isValidUser(updatedSurvey))
+		if (!UserUtility.isValidUser(updatedDTOUser))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
-		userService.updateUserById(updatedSurvey); 
+		User updatedUser = updatedDTOUser.toUser();
+		userService.updateUserById(updatedUser);
 		List<User> updatedUserList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
 			new UpdateUserByIdResponse(
@@ -86,15 +86,15 @@ public class UserController {
 		
 	}
 	@DeleteMapping("/{idUser}")
-	public ResponseEntity<RemoveUserByIdResponse> removeUserById(@PathVariable Long idUser) {
+	public ResponseEntity<DeleteUserByIdResponse> deleteUserById(@PathVariable Long idUser) {
 		
 		User userToDelete = userService.getUserById(idUser);
-		userService.deleteSurvey(userToDelete);
-		List<User> updatedSurveyList = userService.getUserList();  
+		userService.deleteUser(userToDelete);
+		List<User> updatedUserList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
-			new RemoveUserByIdResponse(
+			new DeleteUserByIdResponse(
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
-				updatedSurveyList
+				updatedUserList
 			));
 		
 	}

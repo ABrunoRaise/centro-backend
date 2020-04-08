@@ -3,6 +3,9 @@ package com.tecnositaf.backend.model;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tecnositaf.backend.dto.DTOUser;
+import com.tecnositaf.backend.utilities.DateUtility;
+import org.springframework.beans.BeanUtils;
 
 
 public class User {
@@ -13,7 +16,6 @@ public class User {
 	private String mail;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime birthday;
-	private Integer age = null;
 	private Boolean isFemale;
 	
 	
@@ -70,13 +72,6 @@ public class User {
 		this.birthday = birthday;
 	}
 
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
 
 	public Boolean getIsFemale() {
 		return isFemale;
@@ -89,8 +84,28 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [idUser=" + idUser + ", username=" + username + ", password=" + password + ", mail=" + mail
-				+ ", birthDay=" + birthday + ", age=" + age + ", isFemale=" + isFemale + "]";
+				+ ", birthDay=" + birthday + ", isFemale=" + isFemale + "]";
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof User))
+			return false;
+		User toCheck = (User)obj;
+		return (this.idUser.equals(toCheck.getIdUser()) &&
+				this.username.equals(toCheck.getUsername()) &&
+				this.password.equals(toCheck.getPassword()) &&
+				this.mail.equals(toCheck.getMail()) &&
+				this.birthday.equals(toCheck.getBirthday()) &&
+				this.isFemale.equals(toCheck.getIsFemale())
+		);
+	}
+
+	public DTOUser toDtoUser(){
+		DTOUser output = new DTOUser();
+		BeanUtils.copyProperties(this,output);
+		Integer age = DateUtility.calculateDifferenceYear(this.getBirthday());
+		output.setAge(age);
+		return output;
+	}
 }

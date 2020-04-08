@@ -14,8 +14,7 @@ import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.Survey;
 import com.tecnositaf.backend.repository.SurveyRepository;
-import com.tecnositaf.backend.utility.DateUtility;
-import com.tecnositaf.backend.utility.SurveyUtility;
+import com.tecnositaf.backend.utilities.DateUtility;
 
 @Service
 public class SurveyService {
@@ -28,9 +27,7 @@ public class SurveyService {
 	public List<Survey> getSurveyList() {
 		
 		log.info("In get survey list");
-		List<Survey> rawSurveyList = surveyRepository.findAll();
-		return SurveyUtility.setStorageYearsOf(rawSurveyList);
-		
+		return surveyRepository.findAll();
 	}
 	
 	public Survey addSurvey(Survey addedSurvey) {
@@ -56,17 +53,15 @@ public class SurveyService {
 	public List<Survey> getSurveysFromDevice(String idDevice) {
 		
 		log.info("In get surveys from device");
-		List<Survey> rawSurveyList = surveyRepository.getSurveyByIdDevice(idDevice);
-		return SurveyUtility.setStorageYearsOf(rawSurveyList);
-		
+		return surveyRepository.getSurveyByIdDevice(idDevice);
+
 	}
 
 	public List<Survey> getSurveysFromDevice(String idDevice, LocalDateTime timestamp) {
 		
 		log.info("In get surveys from device with timestamp");
-		List<Survey> rawSurveyList = surveyRepository.getSurveyByIdDevice(idDevice, timestamp);
-		return SurveyUtility.setStorageYearsOf(rawSurveyList);
-		
+		return surveyRepository.getSurveyByIdDevice(idDevice, timestamp);
+
 	}
 
 	
@@ -76,7 +71,7 @@ public class SurveyService {
 		List<Survey> surveysToFilter = getSurveyList();
 		List<Survey> surveysFiltered;
 		surveysFiltered = surveysToFilter.stream()
-								 .filter(currentSurvey -> currentSurvey.getStorageYears() <= storageYears)
+								 .filter(currentSurvey -> DateUtility.calculateDifferenceYear(currentSurvey.getTimestamp()) <= storageYears)
 								 .collect(Collectors.toList());
 		return surveysFiltered;
 		
@@ -86,9 +81,8 @@ public class SurveyService {
 	public Survey getSurveyById(String idSurvey) {
 		
 		log.info("In get survey by id");
-		Survey surveyFound = surveyRepository.findById(idSurvey).orElseThrow(
-								() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE,HttpStatus.UNAUTHORIZED));
-		return SurveyUtility.setStorageYearsOf(surveyFound);
+		return surveyRepository.findById(idSurvey).orElseThrow(
+				() -> new CustomException(ResponseErrorEnum.ERR_MISSINGRESOURCE,HttpStatus.UNAUTHORIZED));
 
 	}
 	

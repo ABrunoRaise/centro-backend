@@ -63,7 +63,14 @@
 		    <artifactId>mybatis-spring-boot-starter</artifactId>
 		    <version>2.1.1</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter-test</artifactId>
+			<version>2.1.1</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
@@ -92,7 +99,13 @@
 			<version>2.9.2</version>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
