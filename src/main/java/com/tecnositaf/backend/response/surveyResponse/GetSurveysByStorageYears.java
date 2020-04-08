@@ -35,21 +35,13 @@ public class GetSurveysByStorageYears extends Response{
 		);
 		this.numberOfSurveys = surveyList.size();
 	}
-	
+
 	public int getStorageYears() {
 		return storageYears;
 	}
 
 	public void setStorageYears(int storageYears) {
 		this.storageYears = storageYears;
-	}
-
-	public List<DTOSurvey> getSurveys() {
-		return surveyList;
-	}
-
-	public void setSurveys(List<DTOSurvey> surveys) {
-		this.surveyList = surveys;
 	}
 
 	public int getNumberOfSurveys() {
@@ -59,6 +51,12 @@ public class GetSurveysByStorageYears extends Response{
 	public void setNumberOfSurveys(int numberOfSurveys) {
 		this.numberOfSurveys = numberOfSurveys;
 	}
-	
-	
+
+	public List<DTOSurvey> getSurveyList() {
+		return surveyList;
+	}
+
+	public void setSurveyList(List<DTOSurvey> surveyList) {
+		this.surveyList = surveyList;
+	}
 }

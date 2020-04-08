@@ -1,4 +1,4 @@
-package com.tecnositaf.backend.controller.user;
+package com.tecnositaf.backend.controller.survey;
 
 import com.tecnositaf.backend.CentroBackendApplication;
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,60 +38,30 @@ public class AddSurveyEndpointTest {
 
     private final String ENDPOINT_RESOURCE_BASE_URL = "http://localhost:8080/surveys";
     /**********     REQUEST json    **********/
-    private final String deviceTestInsertRequestBodyJSON = "{" +
-            "  \"ambientPressure\": 0," +
-            "  \"ambientTemperature\": 0," +
-            "  \"cpu\": 0," +
-            "  \"deviceTemperature\": 0," +
-            "  \"idDeviceFk\": \"deviceTest\"," +
-            "  \"idSurvey\": null," +
-            "  \"ram\": 0," +
-            "  \"storageYears\": 0," +
-            "  \"timestamp\": \"2012-09-10 00:00:00\"" +
+    private final String deviceTestInsertRequestBodyJSON = "{\n" +
+            "  \"ambientPressure\": 0,\n" +
+            "  \"ambientTemperature\": 0,\n" +
+            "  \"cpu\": 0,\n" +
+            "  \"deviceTemperature\": 0,\n" +
+            "  \"idDeviceFk\": \"deviceTest\",\n" +
+            "  \"idSurvey\": null,\n" +
+            "  \"ram\": 0,\n" +
+            "  \"storageYears\": 0,\n" +
+            "  \"timestamp\": \"2012-09-10 00:00:00\"\n" +
             "}";
-    private final String deviceNullInsertFailureForEmptyFieldRequestBodyJSON = "{" +
-            "  \"ambientPressure\": 0," +
-            "  \"ambientTemperature\": 0," +
-            "  \"cpu\": 0," +
-            "  \"deviceTemperature\": 0," +
-            "  \"idDeviceFk\": null," +
-            "  \"idSurvey\": null," +
-            "  \"ram\": 0," +
-            "  \"storageYears\": 0," +
-            "  \"timestamp\": \"2012-09-10 00:00:00\"" +
+    private final String deviceNullInsertFailureForEmptyFieldRequestBodyJSON = "{\n" +
+            "  \"ambientPressure\": 0,\n" +
+            "  \"ambientTemperature\": 0,\n" +
+            "  \"cpu\": 0,\n" +
+            "  \"deviceTemperature\": 0,\n" +
+            "  \"idDeviceFk\": null,\n" +
+            "  \"idSurvey\": null,\n" +
+            "  \"ram\": 0,\n" +
+            "  \"storageYears\": 0,\n" +
+            "  \"timestamp\": \"2012-09-10 00:00:00\"\n" +
             "}";
 
     /**********     RESPONSE json    **********/
-    private final String addSurveyOnInitResponse = "{" +
-            "  \"code\": 0," +
-            "  \"message\": \"Success\"," +
-            "  \"path\": \"http://localhost:8080/surveys\"," +
-            "  \"numberOfSurveys\": 2," +
-            "  \"surveyList\": [" +
-            "    {" +
-            "      \"idSurvey\": \"5e7a11e88a297d0cd94168a7\"," +
-            "      \"idDeviceFk\": \"DeViCeTeSt2\"," +
-            "      \"timestamp\": \"2020-03-24 14:58:00\"," +
-            "      \"storageYears\": 0," +
-            "      \"cpu\": 4.8," +
-            "      \"ram\": 50.6," +
-            "      \"deviceTemperature\": 4.9," +
-            "      \"ambientTemperature\": 12.8," +
-            "      \"ambientPressure\": 14.5" +
-            "    }," +
-            "    {" +
-            "      \"idSurvey\": \"5e8b668f56c0fa7f05923d95\"," +
-            "      \"idDeviceFk\": \"deviceTest\"," +
-            "      \"timestamp\": \"2012-09-10 00:00:00\"," +
-            "      \"storageYears\": 7," +
-            "      \"cpu\": 0," +
-            "      \"ram\": 0," +
-            "      \"deviceTemperature\": 0," +
-            "      \"ambientTemperature\": 0," +
-            "      \"ambientPressure\": 0" +
-            "    }" +
-            "  ]" +
-            "}";
 
     private final String addSurveyDeviceNullOnInitInvalidFieldResponseJSON = "{" +
             "\"code\":"+ ResponseErrorEnum.ERR_INVALIDFIELD.getCode() +
@@ -102,9 +73,19 @@ public class AddSurveyEndpointTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content( deviceTestInsertRequestBodyJSON )
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 //response
-                .andExpect(content().json( addSurveyOnInitResponse ))
+                .andExpect(jsonPath("$.code").exists())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.message").value("Success"))
+                .andExpect(jsonPath("$.path").exists())
+                .andExpect(jsonPath("$.path").value("http://localhost:8080/surveys"))
+                .andExpect(jsonPath("$.numberOfSurveys").exists())
+                .andExpect(jsonPath("$.numberOfSurveys").value(2))
+                .andExpect(jsonPath("$.surveyList").exists())
+                .andExpect(jsonPath("$.surveyList").isArray())
+                .andExpect(jsonPath("$.surveyList", hasSize(2)))
                 .andDo(print());
     }
 

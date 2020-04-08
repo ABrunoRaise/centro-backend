@@ -23,5 +23,12 @@ public class CustomException extends RuntimeException{
 	public void setResponseError(ResponseErrorEnum responseError) {
 		this.responseError = responseError;
 	}
-	
+
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
+
+	public void setHttpStatus(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
+	}
 }

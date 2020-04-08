@@ -1,5 +1,7 @@
-package com.tecnositaf.backend.controller.user;
+package com.tecnositaf.backend.controller.survey;
+
 import com.tecnositaf.backend.CentroBackendApplication;
+import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = CentroBackendApplication.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class GetSurveysEndpointTest {
+public class GetSurveysByDeviceEndpointTest {
+
     private MockMvc mockMvc;
 
     @Autowired
@@ -33,16 +36,17 @@ public class GetSurveysEndpointTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wepAppContext).build();
     }
 
-    private final String ENDPOINT_RESOURCE_BASE_URL = "http://localhost:8080/surveys";
+    private final String ENDPOINT_RESOURCE_BASE_URL = "http://localhost:8080/surveys/devices/DeViCeTeSt2";
 
-    private final String getSurveysOnInitResponse = "{" +
+    /**********     RESPONSE json    **********/
+    private final String getSurveysByDeviceOnInitResponse = "{" +
             "  \"code\": 0," +
             "  \"message\": \"Success\"," +
-            "  \"path\": \"http://localhost:8080/surveys\"," +
+            "  \"path\": \"http://localhost:8080/surveys/devices/DeViCeTeSt2\"," +
             "  \"numberOfSurveys\": 1," +
             "  \"surveyList\": [" +
             "    {" +
-            "      \"idSurvey\": \"5e7a11e88a297d0cd94168a7\"," +
+            "      \"idSurvey\": \"5e8d8cfdf614ec1938287fda\"," +
             "      \"idDeviceFk\": \"DeViCeTeSt2\"," +
             "      \"timestamp\": \"2020-03-24 14:58:00\"," +
             "      \"storageYears\": 0," +
@@ -63,8 +67,7 @@ public class GetSurveysEndpointTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 //response
-                .andExpect(content().json(getSurveysOnInitResponse))
+                .andExpect(content().json(getSurveysByDeviceOnInitResponse))
                 .andDo(print());
     }
-
 }

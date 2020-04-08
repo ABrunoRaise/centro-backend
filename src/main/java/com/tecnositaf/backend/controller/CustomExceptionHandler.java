@@ -28,7 +28,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(CustomException.class)
 	public final ResponseEntity<Response> handleCustomException(CustomException ex, WebRequest request){
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+		return ResponseEntity.status(ex.getHttpStatus()).body(
 			new Response(
 				ex.getResponseError(),
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString()

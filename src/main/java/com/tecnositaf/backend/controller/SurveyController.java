@@ -42,37 +42,38 @@ public class SurveyController {
 	
 	@GetMapping
 	public ResponseEntity<GetTableResponse> getSurveys(){
-		
+
 		List<Survey> surveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
-			new GetTableResponse( 
-				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(), 
+			new GetTableResponse(
+				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
 				surveyList
 			)
 		);
-		
+
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<AddSurveyResponse> addSurvey(
 			@RequestBody
 			@ApiParam(value = "IdSurvey not required") DTOSurvey addedDTOSurvey) {
 		if (!SurveyUtility.isValidSurveyForInsert(addedDTOSurvey))
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.BAD_REQUEST);
 		Survey toAddInDbSurvey = addedDTOSurvey.toSurvey();
 		surveyService.addSurvey(toAddInDbSurvey);
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
-			new AddSurveyResponse( 
-				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(), 
+			new AddSurveyResponse(
+				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
 				updatedSurveyList
 			));
-		
+
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<UpdateSurveyByIdResponse> updateSurveyById(
 			@RequestBody DTOSurvey updatedDTOSurvey){
+		System.out.println("Dto Survey" + updatedDTOSurvey);
 		if(!SurveyUtility.isValidIdSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
 		if (!SurveyUtility.isValidSurvey(updatedDTOSurvey))
@@ -108,7 +109,7 @@ public class SurveyController {
 		
 	}
 	
-	@GetMapping(path = "/storageYears/{storageYear}")
+	@GetMapping(path = "/storageYears/{storageYears}")
 	public ResponseEntity<GetSurveysByStorageYears> getSurveysByStorageYear(@PathVariable int storageYears) {
 		
 		if(!DateUtility.checkYearValidity(storageYears))

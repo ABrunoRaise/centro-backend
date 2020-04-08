@@ -113,6 +113,21 @@ public class Survey {
 				+ ambientTemperature + ", ambientPressure=" + ambientPressure + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof Survey))
+			return false;
+		Survey toCheck = (Survey) obj;
+		return (this.idSurvey.equals(toCheck.getIdSurvey()) &&
+				this.idDeviceFk.equals(toCheck.getIdDeviceFk()) &&
+				this.timestamp.equals(toCheck.getTimestamp()) &&
+				this.cpu.equals(toCheck.getCpu()) &&
+				this.ram.equals(toCheck.getRam()) &&
+				this.deviceTemperature.equals(toCheck.getDeviceTemperature()) &&
+				this.ambientTemperature.equals(toCheck.getAmbientTemperature()) &&
+				this.ambientPressure.equals(toCheck.getAmbientPressure()));
+	}
+
 	public DTOSurvey toDtoSurvey(){
 		DTOSurvey output = new DTOSurvey();
 		BeanUtils.copyProperties(this , output);

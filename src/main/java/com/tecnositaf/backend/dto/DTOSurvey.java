@@ -108,6 +108,21 @@ public class DTOSurvey {
         this.ambientPressure = ambientPressure;
     }
 
+    @Override
+    public String toString() {
+        return "DTOSurvey{" +
+                "idSurvey='" + idSurvey + '\'' +
+                ", idDeviceFk='" + idDeviceFk + '\'' +
+                ", timestamp=" + timestamp +
+                ", storageYears=" + storageYears +
+                ", cpu=" + cpu +
+                ", ram=" + ram +
+                ", deviceTemperature=" + deviceTemperature +
+                ", ambientTemperature=" + ambientTemperature +
+                ", ambientPressure=" + ambientPressure +
+                '}';
+    }
+
     public Survey toSurvey(){
         Survey output = new Survey();
         BeanUtils.copyProperties(this,output);

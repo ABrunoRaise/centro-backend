@@ -12,13 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = CentroBackendApplication.class)
 @SpringBootTest
