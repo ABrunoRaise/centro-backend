@@ -1,7 +1,6 @@
 package com.tecnositaf.backend.controller.survey;
 
 import com.tecnositaf.backend.CentroBackendApplication;
-import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

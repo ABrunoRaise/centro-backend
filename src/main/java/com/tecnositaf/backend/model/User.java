@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tecnositaf.backend.dto.DTOUser;
-import com.tecnositaf.backend.utility.DateUtility;
+import com.tecnositaf.backend.utilities.DateUtility;
 import org.springframework.beans.BeanUtils;
 
 

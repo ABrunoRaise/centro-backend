@@ -15,7 +15,7 @@ import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.User;
 import com.tecnositaf.backend.response.userResponse.*;
 import com.tecnositaf.backend.service.UserService;
-import com.tecnositaf.backend.utility.UserUtility;
+import com.tecnositaf.backend.utilities.UserUtility;
 
 @RestController
 @RequestMapping("/users")

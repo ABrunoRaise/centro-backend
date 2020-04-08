@@ -1,4 +1,4 @@
-package com.tecnositaf.backend.utility;
+package com.tecnositaf.backend.utilities;
 
 import java.time.LocalDateTime;
 

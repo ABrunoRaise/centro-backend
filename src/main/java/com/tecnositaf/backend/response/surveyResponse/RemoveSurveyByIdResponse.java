@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tecnositaf.backend.dto.DTOSurvey;
-import com.tecnositaf.backend.dto.DTOTodo;
 import com.tecnositaf.backend.model.Survey;
 import com.tecnositaf.backend.response.Response;
 

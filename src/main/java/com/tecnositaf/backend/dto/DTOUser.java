@@ -2,7 +2,7 @@ package com.tecnositaf.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tecnositaf.backend.model.User;
-import com.tecnositaf.backend.utility.StringUtilities;
+import com.tecnositaf.backend.utilities.StringUtility;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
@@ -79,7 +79,7 @@ public class DTOUser {
     public User toUser(){
         User output = new User();
         BeanUtils.copyProperties(this,output);
-        String defaultPassword = StringUtilities.generateCasualString();
+        String defaultPassword = StringUtility.generateCasualString();
         output.setPassword(defaultPassword);
         return output;
     }

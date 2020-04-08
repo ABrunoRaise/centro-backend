@@ -14,8 +14,7 @@ import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.Survey;
 import com.tecnositaf.backend.repository.SurveyRepository;
-import com.tecnositaf.backend.utility.DateUtility;
-import com.tecnositaf.backend.utility.SurveyUtility;
+import com.tecnositaf.backend.utilities.DateUtility;
 
 @Service
 public class SurveyService {

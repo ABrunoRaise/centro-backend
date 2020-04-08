@@ -3,15 +3,12 @@ package com.tecnositaf.backend.model;
 import java.time.LocalDateTime;
 
 import com.tecnositaf.backend.dto.DTOSurvey;
-import com.tecnositaf.backend.utility.DateUtility;
+import com.tecnositaf.backend.utilities.DateUtility;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Document("survey")
 public class Survey {

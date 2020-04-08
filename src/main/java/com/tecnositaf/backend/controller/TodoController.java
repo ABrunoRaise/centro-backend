@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tecnositaf.backend.model.Todo;
-import com.tecnositaf.backend.response.Response;
 import com.tecnositaf.backend.response.todoResponse.GetTodoByIdResponse;
 import com.tecnositaf.backend.service.TodoService;
 

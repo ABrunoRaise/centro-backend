@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.Survey;
-import com.tecnositaf.backend.response.*;
 import com.tecnositaf.backend.response.surveyResponse.AddSurveyResponse;
 import com.tecnositaf.backend.response.surveyResponse.GetSurveyByIdResponse;
 import com.tecnositaf.backend.response.surveyResponse.GetSurveysByDeviceResponse;
@@ -26,10 +25,8 @@ import com.tecnositaf.backend.response.surveyResponse.GetTableResponse;
 import com.tecnositaf.backend.response.surveyResponse.RemoveSurveyByIdResponse;
 import com.tecnositaf.backend.response.surveyResponse.UpdateSurveyByIdResponse;
 import com.tecnositaf.backend.service.SurveyService;
-import com.tecnositaf.backend.utility.SurveyUtility;
-import com.tecnositaf.backend.utility.DateUtility;
-
-import javax.validation.Valid;
+import com.tecnositaf.backend.utilities.SurveyUtility;
+import com.tecnositaf.backend.utilities.DateUtility;
 
 @RequestMapping("/surveys")
 @RestController

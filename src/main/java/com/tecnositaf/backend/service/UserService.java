@@ -12,7 +12,6 @@ import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.User;
 import com.tecnositaf.backend.repository.UserRepository;
-import com.tecnositaf.backend.utility.UserUtility;
 
 
 @Service

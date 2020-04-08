@@ -1,9 +1,9 @@
-package com.tecnositaf.backend.utility;
+package com.tecnositaf.backend.utilities;
 
 import java.util.Random;
 import java.util.regex.Pattern;
 
-public class StringUtilities {
+public class StringUtility {
 
 	public static boolean validateMail(String mailToValidate) {
 		
