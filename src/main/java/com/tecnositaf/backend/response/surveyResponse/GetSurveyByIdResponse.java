@@ -1,27 +1,28 @@
 package com.tecnositaf.backend.response.surveyResponse;
 
+import com.tecnositaf.backend.dto.DTOSurvey;
 import com.tecnositaf.backend.model.Survey;
 import com.tecnositaf.backend.response.Response;
 
 public class GetSurveyByIdResponse extends Response{
 
-	Survey survey;
+	DTOSurvey survey;
 	
 	public GetSurveyByIdResponse(int code, String message, String path, Survey survey) {
 		super(code, message, path);
-		this.survey = survey;
+		this.survey = survey.toDtoSurvey();
 	}
 
 	public GetSurveyByIdResponse(String path, Survey survey) {
 		super(0, "Success", path);
-		this.survey = survey;
+		this.survey = survey.toDtoSurvey();
 	}
 	
-	public Survey getSurvey() {
+	public DTOSurvey getSurvey() {
 		return survey;
 	}
 
-	public void setSurvey(Survey survey) {
+	public void setSurvey(DTOSurvey survey) {
 		this.survey = survey;
 	}	
 	

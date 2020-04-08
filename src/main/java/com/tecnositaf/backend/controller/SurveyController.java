@@ -5,6 +5,7 @@ import java.util.List;
 
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
+import com.tecnositaf.backend.dto.DTOSurvey;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.Survey;
-import com.tecnositaf.backend.response.*;
 import com.tecnositaf.backend.response.surveyResponse.AddSurveyResponse;
 import com.tecnositaf.backend.response.surveyResponse.GetSurveyByIdResponse;
 import com.tecnositaf.backend.response.surveyResponse.GetSurveysByDeviceResponse;
@@ -25,10 +25,8 @@ import com.tecnositaf.backend.response.surveyResponse.GetTableResponse;
 import com.tecnositaf.backend.response.surveyResponse.RemoveSurveyByIdResponse;
 import com.tecnositaf.backend.response.surveyResponse.UpdateSurveyByIdResponse;
 import com.tecnositaf.backend.service.SurveyService;
-import com.tecnositaf.backend.utility.SurveyUtility;
-import com.tecnositaf.backend.utility.DateUtility;
-
-import javax.validation.Valid;
+import com.tecnositaf.backend.utilities.SurveyUtility;
+import com.tecnositaf.backend.utilities.DateUtility;
 
 @RequestMapping("/surveys")
 @RestController
@@ -40,42 +38,43 @@ public class SurveyController {
 	SurveyService surveyService;
 	
 	@GetMapping
-	public ResponseEntity<GetTableResponse> getTable(){
-		
+	public ResponseEntity<GetTableResponse> getSurveys(){
+
 		List<Survey> surveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
-			new GetTableResponse( 
-				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(), 
+			new GetTableResponse(
+				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
 				surveyList
 			)
 		);
-		
+
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<AddSurveyResponse> addSurvey(
 			@RequestBody
-			@ApiParam(value = "JSON format input, idSurvey and storageYears are not required.") Survey addedSurvey) {
-		if (!SurveyUtility.isValidSurvey(addedSurvey))
-			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.UNAUTHORIZED);
-		surveyService.addSurvey(addedSurvey); 
+			@ApiParam(value = "IdSurvey not required") DTOSurvey addedDTOSurvey) {
+		if (!SurveyUtility.isValidSurveyForInsert(addedDTOSurvey))
+			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD, HttpStatus.BAD_REQUEST);
+		Survey toAddInDbSurvey = addedDTOSurvey.toSurvey();
+		surveyService.addSurvey(toAddInDbSurvey);
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
-			new AddSurveyResponse( 
-				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(), 
+			new AddSurveyResponse(
+				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
 				updatedSurveyList
 			));
-		
+
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<UpdateSurveyByIdResponse> updateSurveyById(
-			@RequestBody
-			@ApiParam(value = "JSON format input, storageYears is not required.") Survey updatedSurvey){
-		if(!SurveyUtility.isValidIdSurvey(updatedSurvey))
+			@RequestBody DTOSurvey updatedDTOSurvey){
+		if(!SurveyUtility.isValidIdSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
-		if (!SurveyUtility.isValidSurvey(updatedSurvey))
+		if (!SurveyUtility.isValidSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDFIELD,HttpStatus.BAD_REQUEST);
+		Survey updatedSurvey = updatedDTOSurvey.toSurvey();
 		surveyService.updateSurveyById(updatedSurvey); 
 		List<Survey> updatedSurveyList = surveyService.getSurveyList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -106,16 +105,16 @@ public class SurveyController {
 		
 	}
 	
-	@GetMapping(path = "/storageYears/{storageYear}")
-	public ResponseEntity<GetSurveysByStorageYears> getSurveysByStorageYear(@PathVariable int storageYear) {
+	@GetMapping(path = "/storageYears/{storageYears}")
+	public ResponseEntity<GetSurveysByStorageYears> getSurveysByStorageYear(@PathVariable int storageYears) {
 		
-		if(!DateUtility.checkYearValidity(storageYear)) 
+		if(!DateUtility.checkYearValidity(storageYears))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDPERIOD,HttpStatus.BAD_REQUEST);
-		List<Survey> surveysByStorageYears = surveyService.getSurveysByStorageYears(storageYear);
+		List<Survey> surveysByStorageYears = surveyService.getSurveysByStorageYears(storageYears);
 		return ResponseEntity.status(HttpStatus.OK).body(
 			new GetSurveysByStorageYears(
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
-				storageYear,
+				storageYears,
 				surveysByStorageYears
 			));
 		

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.tecnositaf.backend.model.Todo;
 import com.tecnositaf.backend.repository.TodoRepository;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TodoService {
