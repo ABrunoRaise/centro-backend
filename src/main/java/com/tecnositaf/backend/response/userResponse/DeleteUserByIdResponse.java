@@ -7,12 +7,12 @@ import com.tecnositaf.backend.dto.DTOUser;
 import com.tecnositaf.backend.model.User;
 import com.tecnositaf.backend.response.Response;
 
-public class RemoveUserByIdResponse extends Response{
+public class DeleteUserByIdResponse extends Response{
 
 	int numberOfUser;
 	List<DTOUser> userList;
 	
-	public RemoveUserByIdResponse(int code, String message, String path, List<User> userList) {
+	public DeleteUserByIdResponse(int code, String message, String path, List<User> userList) {
 		super(code, message, path);
 		this.userList = new ArrayList<>();
 		userList.forEach(user ->
@@ -21,7 +21,7 @@ public class RemoveUserByIdResponse extends Response{
 		this.numberOfUser = userList.size();
 	}
 	
-	public RemoveUserByIdResponse(String path, List<User> userList) {
+	public DeleteUserByIdResponse(String path, List<User> userList) {
 		super(0, "Success" , path);
 		this.userList = new ArrayList<>();
 		userList.forEach(user ->

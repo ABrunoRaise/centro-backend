@@ -86,7 +86,21 @@ public class User {
 		return "User [idUser=" + idUser + ", username=" + username + ", password=" + password + ", mail=" + mail
 				+ ", birthDay=" + birthday + ", isFemale=" + isFemale + "]";
 	}
-	
+
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof User))
+			return false;
+		User toCheck = (User)obj;
+		return (this.idUser.equals(toCheck.getIdUser()) &&
+				this.username.equals(toCheck.getUsername()) &&
+				this.password.equals(toCheck.getPassword()) &&
+				this.mail.equals(toCheck.getMail()) &&
+				this.birthday.equals(toCheck.getBirthday()) &&
+				this.isFemale.equals(toCheck.getIsFemale())
+		);
+	}
+
 	public DTOUser toDtoUser(){
 		DTOUser output = new DTOUser();
 		BeanUtils.copyProperties(this,output);

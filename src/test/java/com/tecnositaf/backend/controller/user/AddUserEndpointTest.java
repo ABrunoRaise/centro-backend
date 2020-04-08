@@ -1,4 +1,4 @@
-package com.tecnositaf.backend.controller.survey;
+package com.tecnositaf.backend.controller.user;
 
 import com.tecnositaf.backend.CentroBackendApplication;
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
@@ -21,13 +21,14 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = CentroBackendApplication.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Transactional
-public class AddSurveyEndpointTest {
+@Transactional
+public class AddUserEndpointTest {
     private MockMvc mockMvc;
 
     @Autowired
@@ -38,29 +39,23 @@ public class AddSurveyEndpointTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wepAppContext).build();
     }
 
-    private final String ENDPOINT_RESOURCE_BASE_URL = "http://localhost:8080/surveys";
+    private final String ENDPOINT_RESOURCE_BASE_URL = "http://localhost:8080/users";
+
     /**********     REQUEST json    **********/
-    private final String deviceTestInsertRequestBodyJSON = "{\n" +
-            "  \"ambientPressure\": 0,\n" +
-            "  \"ambientTemperature\": 0,\n" +
-            "  \"cpu\": 0,\n" +
-            "  \"deviceTemperature\": 0,\n" +
-            "  \"idDeviceFk\": \"deviceTest\",\n" +
-            "  \"idSurvey\": null,\n" +
-            "  \"ram\": 0,\n" +
-            "  \"storageYears\": 0,\n" +
-            "  \"timestamp\": \"2012-09-10 00:00:00\"\n" +
+    private final String newUserInsertRequestBodyJSON = "{\n" +
+            "  \"age\": 0,\n" +
+            "  \"birthday\": \"1995-09-11 00:00:00\",\n" +
+            "  \"isFemale\": true,\n" +
+            "  \"mail\": \"newUser@gmail.com\",\n" +
+            "  \"username\": \"newUser\"\n" +
             "}";
-    private final String deviceNullInsertFailureForEmptyFieldRequestBodyJSON = "{\n" +
-            "  \"ambientPressure\": 0,\n" +
-            "  \"ambientTemperature\": 0,\n" +
-            "  \"cpu\": 0,\n" +
-            "  \"deviceTemperature\": 0,\n" +
-            "  \"idDeviceFk\": null,\n" +
-            "  \"idSurvey\": null,\n" +
-            "  \"ram\": 0,\n" +
-            "  \"storageYears\": 0,\n" +
-            "  \"timestamp\": \"2012-09-10 00:00:00\"\n" +
+
+    private final String invalidFieldInsertRequestBodyJSON = "{\n" +
+            "  \"age\": 0,\n" +
+            "  \"birthday\": \"1995-09-11 00:00:00\",\n" +
+            "  \"isFemale\": true,\n" +
+            "  \"mail\": \"newUser...gmail.com\",\n" +
+            "  \"username\": \"newUser\"\n" +
             "}";
 
     /**********     RESPONSE json    **********/
@@ -73,7 +68,7 @@ public class AddSurveyEndpointTest {
     public void successOnInit() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT_RESOURCE_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content( deviceTestInsertRequestBodyJSON )
+                .content( newUserInsertRequestBodyJSON )
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 //response
@@ -82,12 +77,12 @@ public class AddSurveyEndpointTest {
                 .andExpect(jsonPath("$.message").exists())
                 .andExpect(jsonPath("$.message").value("Success"))
                 .andExpect(jsonPath("$.path").exists())
-                .andExpect(jsonPath("$.path").value("http://localhost:8080/surveys"))
-                .andExpect(jsonPath("$.numberOfSurveys").exists())
-                .andExpect(jsonPath("$.numberOfSurveys").value(2))
-                .andExpect(jsonPath("$.surveyList").exists())
-                .andExpect(jsonPath("$.surveyList").isArray())
-                .andExpect(jsonPath("$.surveyList", hasSize(2)))
+                .andExpect(jsonPath("$.path").value("http://localhost:8080/users"))
+                .andExpect(jsonPath("$.numberOfUser").exists())
+                .andExpect(jsonPath("$.numberOfUser").value(2))
+                .andExpect(jsonPath("$.userList").exists())
+                .andExpect(jsonPath("$.userList").isArray())
+                .andExpect(jsonPath("$.userList", hasSize(2)))
                 .andDo(print());
     }
 
@@ -95,7 +90,7 @@ public class AddSurveyEndpointTest {
     public void failureForEmptyField() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT_RESOURCE_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content( deviceNullInsertFailureForEmptyFieldRequestBodyJSON )
+                .content( invalidFieldInsertRequestBodyJSON )
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 //response

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.tecnositaf.backend.enumeration.ResponseErrorEnum;
 import com.tecnositaf.backend.exception.CustomException;
 import com.tecnositaf.backend.model.User;
-import com.tecnositaf.backend.response.Response;
 import com.tecnositaf.backend.response.userResponse.*;
 import com.tecnositaf.backend.service.UserService;
 import com.tecnositaf.backend.utility.UserUtility;
@@ -26,7 +25,7 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping
-	public ResponseEntity<GetUsersResponse> getTable(){
+	public ResponseEntity<GetUsersResponse> getUsers(){
 		
 		List<User> userList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -87,13 +86,13 @@ public class UserController {
 		
 	}
 	@DeleteMapping("/{idUser}")
-	public ResponseEntity<RemoveUserByIdResponse> removeUserById(@PathVariable Long idUser) {
+	public ResponseEntity<DeleteUserByIdResponse> deleteUserById(@PathVariable Long idUser) {
 		
 		User userToDelete = userService.getUserById(idUser);
 		userService.deleteUser(userToDelete);
 		List<User> updatedUserList = userService.getUserList();
 		return ResponseEntity.status(HttpStatus.OK).body(
-			new RemoveUserByIdResponse(
+			new DeleteUserByIdResponse(
 				ServletUriComponentsBuilder.fromCurrentRequest().toUriString(),
 				updatedUserList
 			));

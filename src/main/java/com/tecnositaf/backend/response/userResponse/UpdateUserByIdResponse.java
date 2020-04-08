@@ -9,7 +9,7 @@ import com.tecnositaf.backend.response.Response;
 
 public class UpdateUserByIdResponse extends Response{
 
-	int numberOfUsers;
+	int numberOfUser;
 	List<DTOUser> userList;
 	
 	public UpdateUserByIdResponse(int code, String message, String path, List<User> userList) {
@@ -18,7 +18,7 @@ public class UpdateUserByIdResponse extends Response{
 		userList.forEach(user ->
 				this.userList.add(user.toDtoUser())
 		);
-		this.numberOfUsers = userList.size();
+		this.numberOfUser = userList.size();
 	}
 	
 	public UpdateUserByIdResponse(String path, List<User> userList) {
@@ -27,15 +27,15 @@ public class UpdateUserByIdResponse extends Response{
 		userList.forEach(user ->
 				this.userList.add(user.toDtoUser())
 		);
-		this.numberOfUsers = userList.size();
+		this.numberOfUser = userList.size();
 	}
 
-	public int getNumberOfUsers() {
-		return numberOfUsers;
+	public int getNumberOfUser() {
+		return numberOfUser;
 	}
 
-	public void setNumberOfUsers(int numberOfUsers) {
-		this.numberOfUsers = numberOfUsers;
+	public void setNumberOfUser(int numberOfUser) {
+		this.numberOfUser = numberOfUser;
 	}
 
 	public List<DTOUser> getUserList() {
@@ -45,6 +45,5 @@ public class UpdateUserByIdResponse extends Response{
 	public void setUserList(List<DTOUser> userList) {
 		this.userList = userList;
 	}
-	
 	
 }
