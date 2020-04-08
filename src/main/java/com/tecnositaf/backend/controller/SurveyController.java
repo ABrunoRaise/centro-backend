@@ -70,7 +70,6 @@ public class SurveyController {
 	@PutMapping
 	public ResponseEntity<UpdateSurveyByIdResponse> updateSurveyById(
 			@RequestBody DTOSurvey updatedDTOSurvey){
-		System.out.println("Dto Survey" + updatedDTOSurvey);
 		if(!SurveyUtility.isValidIdSurvey(updatedDTOSurvey))
 			throw new CustomException(ResponseErrorEnum.ERR_INVALIDSURVEYFIELD, HttpStatus.UNAUTHORIZED);
 		if (!SurveyUtility.isValidSurvey(updatedDTOSurvey))
